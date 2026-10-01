@@ -395,6 +395,12 @@ footer {
         grid-template-columns:1fr;
     }
 }
+
+
+/* V2 FEATURES */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.featureGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.mini{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px}.mini b{display:block;font-size:20px;margin-top:7px}.inputGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.inputGrid input,.inputGrid select,.wideInput{width:100%;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:9px}.primaryBtn,.secondaryBtn,.dangerBtn{padding:11px 15px;border-radius:9px;cursor:pointer;margin-top:14px}.primaryBtn{background:var(--text);color:var(--bg);border:0}.secondaryBtn{background:var(--card2);color:var(--text);border:1px solid var(--border)}.dangerBtn{background:transparent;color:#ff7d7d;border:1px solid #633}.progressTrack{height:13px;background:var(--card2);border:1px solid var(--border);border-radius:99px;overflow:hidden;margin-top:14px}.progressBar{height:100%;width:0;background:var(--green);transition:.3s}.sectionTitle{display:flex;justify-content:space-between;gap:10px;align-items:center}.compareControls{display:flex;gap:8px;flex-wrap:wrap}.smallText{font-size:11px;color:var(--muted)}.watchItem{display:grid;grid-template-columns:1.1fr .7fr .7fr 1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}.watchItem a{color:var(--text)}.buildRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}.marketEntry{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+@media(max-width:850px){.grid2,.featureGrid{grid-template-columns:1fr}.watchItem,.buildRow,.marketEntry{grid-template-columns:1fr 1fr}.inputGrid{grid-template-columns:1fr}}
+
 </style>
 </head>
 
@@ -561,6 +567,86 @@ USD and UAH values for the selected model
 
 </div>
 
+</div>
+
+
+
+<div class="grid2">
+  <div class="card">
+    <div class="sectionTitle"><div><h2>My Goal</h2><div class="description">Your Explorer ST purchase target</div></div><span class="badge" id="goalPercent">0%</span></div>
+    <div class="inputGrid">
+      <div><label>Target model</label><select id="goalModel"><option>2020</option><option>2025</option></select></div>
+      <div><label>Target price, USD</label><input id="goalPrice" type="number" value="20000"></div>
+      <div><label>Saved, USD</label><input id="goalSaved" type="number" value="0"></div>
+      <div><label>Target year</label><input id="goalYear" type="number" value="2030"></div>
+    </div>
+    <div class="progressTrack"><div class="progressBar" id="goalBar"></div></div>
+    <div class="smallText" id="goalText" style="margin-top:9px"></div>
+    <button class="primaryBtn" onclick="saveGoal()">Save goal</button>
+  </div>
+
+  <div class="card">
+    <h2>Purchase Calculator</h2><div class="description">Estimate the full landed cost in Ukraine</div>
+    <div class="inputGrid">
+      <div><label>Car price, USD</label><input id="calcCar" type="number" value="20000"></div>
+      <div><label>Shipping, USD</label><input id="calcShip" type="number" value="2500"></div>
+      <div><label>Customs / taxes, USD</label><input id="calcTax" type="number" value="8000"></div>
+      <div><label>Repair / service, USD</label><input id="calcRepair" type="number" value="3000"></div>
+    </div>
+    <div class="featureGrid" style="grid-template-columns:1fr 1fr">
+      <div class="mini"><span class="statLabel">TOTAL USD</span><b id="calcUSD">$0</b></div>
+      <div class="mini"><span class="statLabel">TOTAL UAH</span><b id="calcUAH">₴0</b></div>
+    </div>
+    <button class="primaryBtn" onclick="calculatePurchase()">Calculate</button>
+    <div class="smallText" style="margin-top:10px">Manual estimate only; actual taxes, shipping and repairs can differ.</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sectionTitle"><div><h2>Market Dashboard</h2><div class="description">Quick statistics for the selected model</div></div><div class="compareControls"><button class="secondaryBtn" onclick="setDistanceUnit()" id="distanceBtn">Miles → KM</button><button class="secondaryBtn" onclick="toggleCompare()" id="compareBtn">Compare 2020 / 2025</button></div></div>
+  <div class="featureGrid">
+    <div class="mini"><span class="statLabel">Depreciation from MSRP</span><b id="depStat">—</b></div>
+    <div class="mini"><span class="statLabel">Lowest observed</span><b id="lowStat">—</b></div>
+    <div class="mini"><span class="statLabel">Highest observed</span><b id="highStat">—</b></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Add Market Price</h2><div class="description">Add your own observations. They are stored in this browser.</div>
+  <div class="inputGrid">
+    <div><label>Model year</label><select id="entryModel"><option>2020</option><option>2025</option></select></div>
+    <div><label>Date</label><input id="entryDate" type="date"></div>
+    <div><label>Price, USD</label><input id="entryPrice" type="number" placeholder="23900"></div>
+    <div><label>Mileage</label><input id="entryMileage" type="number" placeholder="65000"></div>
+  </div>
+  <button class="primaryBtn" onclick="addMarketEntry()">+ Add market price</button>
+  <div id="marketEntries" style="margin-top:12px"></div>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h2>Watchlist</h2><div class="description">Save listings you want to keep an eye on</div>
+    <div class="inputGrid">
+      <div><label>Title / VIN</label><input id="watchTitle" placeholder="2020 ST / VIN"></div>
+      <div><label>Price, USD</label><input id="watchPrice" type="number"></div>
+      <div><label>Mileage</label><input id="watchMileage" type="number"></div>
+      <div><label>Listing link</label><input id="watchLink" placeholder="https://..."></div>
+    </div>
+    <button class="primaryBtn" onclick="addWatch()">+ Add listing</button><div id="watchList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Stock / Tuned Build</h2><div class="description">Plan your future Explorer ST setup</div>
+    <div class="featureGrid" style="grid-template-columns:1fr 1fr">
+      <div class="mini"><span class="statLabel">Stock target</span><b>~400 hp</b></div>
+      <div class="mini"><span class="statLabel">Build target</span><b id="hpTargetText">500 hp</b></div>
+    </div>
+    <label>Horsepower target</label><input class="wideInput" id="hpTarget" type="number" value="500">
+    <label>Modification budget, USD</label><input class="wideInput" id="modBudget" type="number" value="3000">
+    <label>Build notes</label><input class="wideInput" id="buildNotes" placeholder="Intercooler, tune, exhaust...">
+    <button class="primaryBtn" onclick="saveBuild()">Save build</button>
+    <div id="buildSummary" class="smallText" style="margin-top:12px"></div>
+  </div>
 </div>
 
 </main>
@@ -864,6 +950,7 @@ car.prices;
 priceChart.update();
 
 renderTable();
+renderDashboard();
 
 }
 
@@ -992,6 +1079,7 @@ usdUah.toFixed(2);
 
 
 renderTable();
+calculatePurchase();
 
 }
 
@@ -1262,6 +1350,32 @@ closeProfile();
 );
 
 
+
+
+/* ============================== V2 FEATURES ============================== */
+let distanceUnit=localStorage.getItem('distanceUnit')||'mi';
+let compareMode=false;
+const money=n=>'$'+Math.round(Number(n)||0).toLocaleString();
+function readJSON(k,f=[]){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}}
+function writeJSON(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function saveGoal(){const g={model:goalModel.value,price:+goalPrice.value||0,saved:+goalSaved.value||0,year:+goalYear.value||2030};writeJSON('stGoal',g);renderGoal()}
+function renderGoal(){const g=readJSON('stGoal',{model:'2020',price:20000,saved:0,year:2030});goalModel.value=g.model;goalPrice.value=g.price;goalSaved.value=g.saved;goalYear.value=g.year;const pct=g.price?Math.min(100,g.saved/g.price*100):0;goalBar.style.width=pct+'%';goalPercent.textContent=pct.toFixed(1)+'%';goalText.textContent=money(g.saved)+' of '+money(g.price)+' • '+money(Math.max(0,g.price-g.saved))+' remaining • target '+g.year}
+function calculatePurchase(){const total=(+calcCar.value||0)+(+calcShip.value||0)+(+calcTax.value||0)+(+calcRepair.value||0);calcUSD.textContent=money(total);calcUAH.textContent='₴'+Math.round(total*usdUah).toLocaleString()}
+function renderDashboard(){const c=market[selected], dep=(c.current-c.msrp)/c.msrp*100;depStat.textContent=dep.toFixed(1)+'%';lowStat.textContent=money(Math.min(...c.prices));highStat.textContent=money(Math.max(...c.prices))}
+function setDistanceUnit(){distanceUnit=distanceUnit==='mi'?'km':'mi';localStorage.setItem('distanceUnit',distanceUnit);distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles';renderMarketEntries();renderWatch()}
+function toggleCompare(){compareMode=!compareMode;compareBtn.textContent=compareMode?'Show selected model':'Compare 2020 / 2025';if(compareMode){priceChart.data.labels=[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];priceChart.data.datasets=[{label:'2020',data:market['2020'].prices,borderColor:'#ffffff',pointBackgroundColor:'#ffffff',borderWidth:3,tension:.35,fill:false},{label:'2025',data:[null,null,null,null,null,...market['2025'].prices],borderColor:'#65d68b',pointBackgroundColor:'#65d68b',borderWidth:3,tension:.35,fill:false}];priceChart.options.plugins.legend.display=true}else{priceChart.options.plugins.legend.display=false;priceChart.data.datasets=[{data:market[selected].prices,borderColor:document.body.classList.contains('light')?'#111111':'#ffffff',backgroundColor:'rgba(255,255,255,.05)',borderWidth:3,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:document.body.classList.contains('light')?'#111111':'#ffffff',tension:.35,fill:true}];priceChart.data.labels=market[selected].years}priceChart.update()}
+function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert('Add a date and price.');const a=readJSON('marketEntries');a.unshift({id:Date.now(),model:entryModel.value,date:entryDate.value,price:+entryPrice.value,mileage:+entryMileage.value||0});writeJSON('marketEntries',a);entryPrice.value='';entryMileage.value='';renderMarketEntries()}
+function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">No custom observations yet.</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
+function deleteMarketEntry(id){writeJSON('marketEntries',readJSON('marketEntries').filter(x=>x.id!==id));renderMarketEntries()}
+function addWatch(){if(!watchTitle.value)return alert('Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch()}
+function renderWatch(){const a=readJSON('watchList'),el=document.getElementById('watchList');el.innerHTML=a.length?'':'<div class="smallText" style="margin-top:14px">Watchlist is empty.</div>';a.forEach(x=>{let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);const d=document.createElement('div');d.className='watchItem';const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${safeLink?`<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">Open listing</a>`:'<span class="smallText">No link</span>'}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;el.appendChild(d)})}
+function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch()}
+function saveBuild(){const b={hp:+hpTarget.value||500,budget:+modBudget.value||0,notes:buildNotes.value};writeJSON('stBuild',b);renderBuild()}
+function renderBuild(){const b=readJSON('stBuild',{hp:500,budget:3000,notes:''});hpTarget.value=b.hp;modBudget.value=b.budget;buildNotes.value=b.notes;hpTargetText.textContent=b.hp+' hp';buildSummary.textContent=`Target: ${b.hp} hp • Budget: ${money(b.budget)}${b.notes?' • '+b.notes:''}`}
+function initV2(){const today=new Date().toISOString().slice(0,10);entryDate.value=today;renderGoal();calculatePurchase();renderDashboard();renderMarketEntries();renderWatch();renderBuild();distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles'}
+
+
 /* ==============================
    START
 ============================== */
@@ -1273,6 +1387,8 @@ loadProfile();
 updateChartTheme();
 
 render();
+
+initV2();
 
 loadCurrency();
 
