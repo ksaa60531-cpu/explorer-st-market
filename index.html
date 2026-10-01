@@ -450,6 +450,15 @@ footer {
 @media(max-width:800px){.hubHead{align-items:flex-start;flex-direction:column}.hubSplit,.garageGrid{grid-template-columns:1fr}.hubStats.four{grid-template-columns:1fr 1fr}.compareCar{grid-template-columns:30px 1fr auto}.compareCar .hideMobile{display:none}}
 @media(max-width:520px){.hubStats{grid-template-columns:1fr}.hubStats.four{grid-template-columns:1fr 1fr}.compactTwo{grid-template-columns:1fr}.hubPanel{padding:18px}.hubHead{padding:20px 18px 0}.hubTab{padding:10px 8px}.garageQuick{grid-template-columns:1fr}}
 
+
+header{position:relative}
+.fordTop{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:Georgia,serif;font-style:italic;font-weight:900;font-size:22px;letter-spacing:-1px;color:var(--text);opacity:.95;pointer-events:none}
+.galleryStripWrap{margin:14px auto 18px;max-width:900px}
+.galleryStripTitle{display:flex;justify-content:space-between;align-items:center;margin:0 3px 9px;color:var(--muted);font-size:9px;letter-spacing:1.5px}.galleryStripTitle small{font-size:9px;letter-spacing:0}
+.carThumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.carThumb{position:relative;height:112px;padding:0;border:1px solid var(--border);border-radius:11px;overflow:hidden;background:var(--card);cursor:pointer;color:white;text-align:left}.carThumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .22s,filter .22s}.carThumb span{position:absolute;left:8px;bottom:7px;padding:4px 6px;border-radius:6px;background:rgba(0,0,0,.58);font-size:8px;letter-spacing:.5px}.carThumb:hover img{transform:scale(1.04);filter:brightness(.88)}
+.galleryModal{display:none;position:fixed;z-index:9999;inset:0;background:rgba(0,0,0,.91);align-items:center;justify-content:center;padding:28px}.galleryModal.open{display:flex}.modalOpen{overflow:hidden}.galleryStage{width:min(1120px,88vw);height:min(760px,82vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.galleryStage img{max-width:100%;max-height:calc(100% - 42px);object-fit:contain;border-radius:10px;box-shadow:0 20px 70px rgba(0,0,0,.45)}.galleryCaption{margin-top:13px;color:#ddd;font-size:11px;letter-spacing:.4px}.galleryClose,.galleryArrow{position:absolute;border:1px solid rgba(255,255,255,.18);background:rgba(20,20,20,.72);color:white;cursor:pointer;border-radius:50%;display:grid;place-items:center}.galleryClose{right:22px;top:20px;width:42px;height:42px;font-size:25px}.galleryArrow{top:50%;width:48px;height:48px;font-size:34px;transform:translateY(-50%)}.galleryArrow.left{left:22px}.galleryArrow.right{right:22px}
+@media(max-width:700px){.fordTop{font-size:17px}.carThumbs{grid-template-columns:1fr 1fr}.carThumb{height:100px}.galleryArrow{width:40px;height:40px}.galleryArrow.left{left:8px}.galleryArrow.right{right:8px}.galleryModal{padding:12px}.galleryStage{width:92vw}.galleryStripTitle small{display:none}}
+
 </style>
 </head>
 
@@ -485,6 +494,8 @@ ST Owner
 
 </div>
 
+
+<div class="fordTop" aria-label="Ford">FORD</div>
 </header>
 
 
@@ -530,6 +541,20 @@ FORD EXPLORER ST
     <div class="photoYear" id="photoYear">2020</div>
   </div>
 </section>
+<div class="galleryStripWrap">
+  <div class="galleryStripTitle"><span>PHOTO TOUR</span><small id="galleryHint">Нажми на фото, чтобы открыть просмотр</small></div>
+  <div class="carThumbs" id="carThumbs"></div>
+</div>
+<div class="galleryModal" id="galleryModal" onclick="if(event.target===this)closeGallery()">
+  <button class="galleryClose" onclick="closeGallery()" aria-label="Close">×</button>
+  <button class="galleryArrow left" onclick="moveGallery(-1)" aria-label="Previous">‹</button>
+  <div class="galleryStage">
+    <img id="galleryImage" alt="Ford Explorer ST">
+    <div class="galleryCaption" id="galleryCaption"></div>
+  </div>
+  <button class="galleryArrow right" onclick="moveGallery(1)" aria-label="Next">›</button>
+</div>
+
 
 <main>
 
@@ -870,6 +895,62 @@ const carPhotos={
  "2026":"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg"
 };
 
+const carGalleries={
+"2020":[
+ {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"Exterior • Front"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Interior • Front cabin"},
+ {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Exterior • 3/4 view"}
+],
+"2021":[
+ {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Exterior • Front 3/4"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Interior • Cabin"},
+ {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"Exterior • ST body"}
+],
+"2022":[
+ {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Exterior • ST"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Interior • Cabin"},
+ {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Exterior • Front"}
+],
+"2023":[
+ {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Exterior • ST"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Interior • Driver"},
+ {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"Exterior • Front"}
+],
+"2024":[
+ {src:"https://images.autozeitung.de/ford-explorer-facelift-2024-vorstellung-01jpg%2Cid%3Deea3d942%2Cb%3Dautozeitung%2Cw%3D1600%2Crm%3Dsk.jpeg",label:"Exterior • Front"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Interior • Cabin"},
+ {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Exterior • ST"}
+],
+"2025":[
+ {src:"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",label:"Exterior • ST"},
+ {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",label:"Exterior • Front"},
+ {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-awd-test-interior-gallery-6717e15fef248.jpg?resize=1200:*",label:"Interior • Gallery"}
+],
+"2026":[
+ {src:"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg",label:"Exterior • Facelift"},
+ {src:"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440",label:"Exterior • 2026 ST"},
+ {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",label:"Interior / facelift generation"}
+]};
+let galleryIndex=0;
+function galleryForYear(){return carGalleries[String(selected)]||[]}
+function renderThumbs(){
+ const box=document.getElementById("carThumbs"); if(!box)return;
+ const arr=galleryForYear();
+ box.innerHTML=arr.map((x,i)=>`<button class="carThumb ${i===0?"active":""}" onclick="openGallery(${i})"><img src="${x.src}" alt="${selected} Explorer ST ${x.label}" onerror="this.parentElement.style.display='none'"><span>${x.label}</span></button>`).join("");
+}
+function openGallery(i=0){
+ const arr=galleryForYear();if(!arr.length)return;
+ galleryIndex=(i+arr.length)%arr.length;
+ const modal=document.getElementById("galleryModal"),img=document.getElementById("galleryImage");
+ img.src=arr[galleryIndex].src;img.alt=`${selected} Ford Explorer ST • ${arr[galleryIndex].label}`;
+ document.getElementById("galleryCaption").textContent=`${selected} Ford Explorer ST • ${arr[galleryIndex].label} • ${galleryIndex+1}/${arr.length}`;
+ modal.classList.add("open");document.body.classList.add("modalOpen");
+}
+function moveGallery(step){openGallery(galleryIndex+step)}
+function closeGallery(){document.getElementById("galleryModal").classList.remove("open");document.body.classList.remove("modalOpen")}
+document.addEventListener("keydown",e=>{if(!document.getElementById("galleryModal")?.classList.contains("open"))return;if(e.key==="Escape")closeGallery();if(e.key==="ArrowLeft")moveGallery(-1);if(e.key==="ArrowRight")moveGallery(1)});
+
+
 const I18N={
  en:{
   marketIntelligence:"MARKET INTELLIGENCE",heroSubtitle:"Market value & depreciation tracker",modelYear:"MODEL YEAR",
@@ -946,17 +1027,21 @@ function toggleSound(){
  soundButton.textContent=soundEnabled?"🔊":"🔇";
  if(soundEnabled) playEagleIntro();
 }
-const eagleAudio=new Audio("https://www.voicy.network/sounds/GfejoNI0e06mPB8riDuxGA-american-eagle");
-eagleAudio.preload="none";
-eagleAudio.volume=0.22;
-let eagleStopTimer=null;
+let introStopTimer=null;
 function playEagleIntro(){
  if(!soundEnabled)return;
- // Short, quiet meme-style accent. If the remote source cannot play directly, fail silently.
  try{
-   clearTimeout(eagleStopTimer); eagleAudio.currentTime=0;
-   const p=eagleAudio.play(); if(p&&p.catch)p.catch(()=>{});
-   eagleStopTimer=setTimeout(()=>{try{eagleAudio.pause();eagleAudio.currentTime=0}catch(e){}},1600);
+   const AC=window.AudioContext||window.webkitAudioContext,ctx=new AC(),t=ctx.currentTime;
+   const master=ctx.createGain();master.gain.setValueAtTime(.0001,t);master.gain.exponentialRampToValueAtTime(.055,t+.025);master.gain.exponentialRampToValueAtTime(.0001,t+1.05);master.connect(ctx.destination);
+   const freqs=[82.41,98.00,110.00]; // original low power-chord style sting
+   freqs.forEach((f,i)=>{
+     const o=ctx.createOscillator(),g=ctx.createGain(),dist=ctx.createWaveShaper();
+     o.type="sawtooth";o.frequency.value=f;g.gain.value=i===0?.34:.18;
+     const curve=new Float32Array(256);for(let n=0;n<256;n++){const x=n*2/255-1;curve[n]=Math.tanh(4*x)}
+     dist.curve=curve;o.connect(dist);dist.connect(g);g.connect(master);o.start(t+i*.018);o.stop(t+.82);
+   });
+   const kick=ctx.createOscillator(),kg=ctx.createGain();kick.type="sine";kick.frequency.setValueAtTime(105,t);kick.frequency.exponentialRampToValueAtTime(48,t+.16);kg.gain.setValueAtTime(.32,t);kg.gain.exponentialRampToValueAtTime(.0001,t+.2);kick.connect(kg);kg.connect(master);kick.start(t);kick.stop(t+.22);
+   setTimeout(()=>ctx.close(),1200);
  }catch(e){}
 }
 function armIntroSound(){
@@ -1105,7 +1190,7 @@ document.getElementById("modelGenerationBadge").textContent=(+selected>=2025?"FA
 if(compareMode) compareMode=false;
 render();
 renderBuild();
-updateCarPhoto();
+updateCarPhoto();renderThumbs();
 }
 
 
