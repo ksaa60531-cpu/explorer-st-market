@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Explorer ST Market</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root {
+    --bg:#080b10;
+    --card:#111720;
+    --card2:#171e28;
+    --border:#29313c;
+    --text:#f4f6f8;
+    --muted:#8993a0;
+    --green:#65d68b;
+    --shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+body.light {
+    --bg:#eef1f5;
+    --card:#ffffff;
+    --card2:#f4f6f8;
+    --border:#d8dde5;
+    --text:#12161c;
+    --muted:#68717d;
+    --shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body {
+    font-family:Arial, Helvetica, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    transition:.3s;
+}
+
+button,input {
+    font:inherit;
+}
+
+/* HEADER */
+
+header {
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 35px;
+    border-bottom:1px solid var(--border);
+    background:var(--card);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.logo {
+    font-weight:800;
+    letter-spacing:3px;
+}
+
+.logo small {
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:4px;
+    letter-spacing:2px;
+}
+
+.actions {
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.theme {
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--card2);
+    color:var(--text);
+    cursor:pointer;
+}
+
+.profile {
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:5px 13px 5px 5px;
+    border:1px solid var(--border);
+    border-radius:30px;
+    cursor:pointer;
+    background:var(--card2);
+}
+
+.avatar {
+    width:33px;
+    height:33px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#222;
+}
+
+#profileNameTop {
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* HERO */
+
+.hero {
+    text-align:center;
+    padding:55px 20px 25px;
+}
+
+.hero .small {
+    font-size:10px;
+    letter-spacing:5px;
+    color:var(--muted);
+    margin-bottom:12px;
+}
+
+.hero h1 {
+    font-size:clamp(32px,5vw,55px);
+    letter-spacing:3px;
+}
+
+.hero p {
+    color:var(--muted);
+    margin-top:10px;
+}
+
+/* SELECTOR */
+
+.selector {
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    padding:15px 20px 35px;
+}
+
+.carButton {
+    width:290px;
+    padding:19px;
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.carButton:hover {
+    transform:translateY(-3px);
+}
+
+.carButton.active {
+    border-color:var(--text);
+}
+
+.carButton strong {
+    font-size:16px;
+}
+
+.carButton span {
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:6px;
+}
+
+/* MAIN */
+
+main {
+    max-width:1150px;
+    margin:auto;
+    padding:0 20px 60px;
+}
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.stat,
+.card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+}
+
+.stat {
+    padding:20px;
+}
+
+.statLabel {
+    color:var(--muted);
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.statValue {
+    font-size:24px;
+    font-weight:bold;
+    margin-top:9px;
+}
+
+.green {
+    color:var(--green);
+}
+
+.card {
+    padding:25px;
+    margin-top:18px;
+}
+
+.card h2 {
+    font-size:20px;
+}
+
+.description {
+    color:var(--muted);
+    font-size:12px;
+    margin-top:6px;
+}
+
+/* CHART */
+
+.chart {
+    height:390px;
+    margin-top:25px;
+}
+
+/* TABLE */
+
+.tableWrap {
+    overflow:auto;
+    margin-top:20px;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th {
+    color:var(--muted);
+    text-align:left;
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:14px;
+    border-bottom:1px solid var(--border);
+}
+
+td {
+    padding:16px 14px;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+}
+
+.badge {
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    background:var(--card2);
+    font-size:11px;
+}
+
+/* MODAL */
+
+.modalBackground {
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+}
+
+.modalBackground.show {
+    display:flex;
+}
+
+.modal {
+    width:390px;
+    max-width:90%;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:27px;
+}
+
+.preview {
+    text-align:center;
+    margin:20px;
+}
+
+.preview img {
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+label {
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin:15px 0 7px;
+}
+
+.textInput {
+    width:100%;
+    padding:12px;
+    background:var(--card2);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:9px;
+}
+
+.modalButtons {
+    display:flex;
+    gap:10px;
+    margin-top:25px;
+}
+
+.modalButtons button {
+    flex:1;
+    padding:12px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.cancel {
+    background:var(--card2);
+    color:var(--text);
+    border:1px solid var(--border);
+}
+
+.save {
+    background:var(--text);
+    color:var(--bg);
+    border:none;
+}
+
+/* FOOTER */
+
+footer {
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    padding:30px;
+}
+
+@media(max-width:800px) {
+    .stats {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    #profileNameTop {
+        display:none;
+    }
+}
+
+@media(max-width:550px) {
+    header {
+        padding:0 15px;
+    }
+
+    .selector {
+        flex-direction:column;
+    }
+
+    .carButton {
+        width:100%;
+    }
+
+    .stats {
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+    ST MARKET
+    <small>EXPLORER TRACKER</small>
+</div>
+
+<div class="actions">
+
+<button class="theme" id="themeButton" onclick="toggleTheme()">
+☀
+</button>
+
+<div class="profile" onclick="openProfile()">
+
+<img
+id="topAvatar"
+class="avatar"
+alt="Profile">
+
+<span id="profileNameTop">
+ST Owner
+</span>
+
+</div>
+
+</div>
+
+</header>
+
+
+<section class="hero">
+
+<div class="small">
+MARKET INTELLIGENCE
+</div>
+
+<h1>
+FORD EXPLORER ST
+</h1>
+
+<p>
+Market value & depreciation tracker
+</p>
+
+</section>
+
+
+<div class="selector">
+
+<button
+id="btn2020"
+class="carButton active"
+onclick="selectCar('2020')">
+
+<strong>
+FORD EXPLORER ST
+</strong>
+
+<span>
+2020 MODEL YEAR
+</span>
+
+</button>
+
+
+<button
+id="btn2025"
+class="carButton"
+onclick="selectCar('2025')">
+
+<strong>
+FORD EXPLORER ST
+</strong>
+
+<span>
+2025 FACELIFT
+</span>
+
+</button>
+
+</div>
+
+
+<main>
+
+<div class="stats">
+
+<div class="stat">
+<div class="statLabel">Original MSRP</div>
+<div class="statValue" id="msrp"></div>
+</div>
+
+<div class="stat">
+<div class="statLabel">Current Market</div>
+<div class="statValue green" id="current"></div>
+</div>
+
+<div class="stat">
+<div class="statLabel">2030 Estimate</div>
+<div class="statValue" id="future"></div>
+</div>
+
+<div class="stat">
+<div class="statLabel">USD / UAH</div>
+<div class="statValue" id="currency">
+Loading...
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2 id="chartTitle">
+Market Value
+</h2>
+
+<div class="description">
+Estimated Explorer ST depreciation over time
+</div>
+
+<div class="chart">
+<canvas id="priceChart"></canvas>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Market History
+</h2>
+
+<div class="description">
+USD and UAH values for the selected model
+</div>
+
+<div class="tableWrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Year</th>
+<th>Price USD</th>
+<th>Price UAH</th>
+<th>Change</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</main>
+
+
+<footer>
+Explorer ST Market Tracker • Prices are estimates and may differ depending on mileage, condition and vehicle history.
+</footer>
+
+
+<div class="modalBackground" id="profileModal">
+
+<div class="modal">
+
+<h2>Edit Profile</h2>
+
+<div class="preview">
+<img id="previewAvatar" alt="Profile preview">
+</div>
+
+<label>
+Name
+</label>
+
+<input
+class="textInput"
+id="nameInput"
+placeholder="Your name">
+
+<label>
+Profile photo
+</label>
+
+<input
+type="file"
+id="photoInput"
+accept="image/*"
+onchange="previewPhoto(event)">
+
+<div class="modalButtons">
+
+<button class="cancel" onclick="closeProfile()">
+Cancel
+</button>
+
+<button class="save" onclick="saveProfile()">
+Save
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==============================
+   MARKET DATA
+============================== */
+
+const market = {
+
+"2020": {
+
+msrp:56310,
+current:24430,
+future:16500,
+
+years:[
+2020,2021,2022,2023,2024,
+2025,2026,2027,2028,2029,2030
+],
+
+prices:[
+56310,48000,42000,36000,32000,
+28000,24430,22000,20000,18200,16500
+]
+
+},
+
+"2025": {
+
+msrp:56770,
+current:43000,
+future:26000,
+
+years:[
+2025,2026,2027,2028,2029,2030
+],
+
+prices:[
+56770,43000,38000,
+33500,29500,26000
+]
+
+}
+
+};
+
+
+let selected = "2020";
+
+let usdUah = 41.5;
+
+let newPhoto = null;
+
+
+/* ==============================
+   CHART
+============================== */
+
+const ctx =
+document
+.getElementById("priceChart")
+.getContext("2d");
+
+
+const priceChart =
+new Chart(ctx, {
+
+type:"line",
+
+data:{
+
+labels:market[selected].years,
+
+datasets:[{
+
+data:market[selected].prices,
+
+borderColor:"#ffffff",
+
+backgroundColor:
+"rgba(255,255,255,.05)",
+
+borderWidth:3,
+
+pointRadius:5,
+
+pointHoverRadius:8,
+
+pointBackgroundColor:"#ffffff",
+
+tension:.35,
+
+fill:true
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+interaction:{
+mode:"index",
+intersect:false
+},
+
+plugins:{
+
+legend:{
+display:false
+},
+
+tooltip:{
+
+callbacks:{
+
+label(context){
+
+return "$" +
+context.parsed.y.toLocaleString();
+
+}
+
+}
+
+}
+
+},
+
+scales:{
+
+x:{
+
+grid:{
+color:"rgba(130,130,130,.1)"
+},
+
+ticks:{
+color:"#8993a0"
+}
+
+},
+
+y:{
+
+grid:{
+color:"rgba(130,130,130,.1)"
+},
+
+ticks:{
+
+color:"#8993a0",
+
+callback(value){
+
+return "$" +
+Math.round(value/1000) +
+"k";
+
+}
+
+}
+
+}
+
+}
+
+}
+
+});
+
+
+/* ==============================
+   CAR SELECTION
+============================== */
+
+function selectCar(year){
+
+selected = year;
+
+document
+.getElementById("btn2020")
+.classList.remove("active");
+
+document
+.getElementById("btn2025")
+.classList.remove("active");
+
+document
+.getElementById("btn"+year)
+.classList.add("active");
+
+render();
+
+}
+
+
+/* ==============================
+   RENDER
+============================== */
+
+function render(){
+
+const car =
+market[selected];
+
+
+document
+.getElementById("msrp")
+.textContent =
+"$" +
+car.msrp.toLocaleString();
+
+
+document
+.getElementById("current")
+.textContent =
+"$" +
+car.current.toLocaleString();
+
+
+document
+.getElementById("future")
+.textContent =
+"~$" +
+car.future.toLocaleString();
+
+
+document
+.getElementById("chartTitle")
+.textContent =
+"Explorer ST " +
+selected +
+" — Market Value";
+
+
+priceChart.data.labels =
+car.years;
+
+priceChart.data.datasets[0].data =
+car.prices;
+
+priceChart.update();
+
+renderTable();
+
+}
+
+
+/* ==============================
+   TABLE
+============================== */
+
+function renderTable(){
+
+const car =
+market[selected];
+
+const body =
+document.getElementById("tableBody");
+
+body.innerHTML = "";
+
+
+car.years.forEach((year,index)=>{
+
+const price =
+car.prices[index];
+
+const uah =
+Math.round(price * usdUah);
+
+const change =
+(
+(price-car.msrp)
+/
+car.msrp
+*
+100
+);
+
+let status =
+"Historical";
+
+if(year === 2026)
+status = "Current";
+
+if(year > 2026)
+status = "Estimate";
+
+
+const row =
+document.createElement("tr");
+
+
+row.innerHTML = `
+
+<td>
+${year}
+</td>
+
+<td>
+$${price.toLocaleString()}
+</td>
+
+<td>
+₴${uah.toLocaleString()}
+</td>
+
+<td>
+${change.toFixed(1)}%
+</td>
+
+<td>
+<span class="badge">
+${status}
+</span>
+</td>
+
+`;
+
+
+body.appendChild(row);
+
+});
+
+}
+
+
+/* ==============================
+   USD / UAH
+============================== */
+
+async function loadCurrency(){
+
+try{
+
+const response =
+await fetch(
+"https://open.er-api.com/v6/latest/USD"
+);
+
+const data =
+await response.json();
+
+if(
+data &&
+data.rates &&
+data.rates.UAH
+){
+
+usdUah =
+data.rates.UAH;
+
+}
+
+}catch(error){
+
+console.log(
+"Currency API unavailable"
+);
+
+}
+
+
+document
+.getElementById("currency")
+.textContent =
+"₴" +
+usdUah.toFixed(2);
+
+
+renderTable();
+
+}
+
+
+/* Update currency every 30 min */
+
+setInterval(
+loadCurrency,
+30 * 60 * 1000
+);
+
+
+/* ==============================
+   THEME
+============================== */
+
+function toggleTheme(){
+
+document
+.body
+.classList
+.toggle("light");
+
+
+const light =
+document
+.body
+.classList
+.contains("light");
+
+
+localStorage.setItem(
+"theme",
+light ? "light" : "dark"
+);
+
+
+document
+.getElementById("themeButton")
+.textContent =
+light ? "🌙" : "☀";
+
+
+updateChartTheme();
+
+}
+
+
+function loadTheme(){
+
+const saved =
+localStorage.getItem("theme");
+
+if(saved === "light"){
+
+document
+.body
+.classList
+.add("light");
+
+document
+.getElementById("themeButton")
+.textContent = "🌙";
+
+}
+
+}
+
+
+function updateChartTheme(){
+
+const light =
+document
+.body
+.classList
+.contains("light");
+
+
+const color =
+light
+? "#111111"
+: "#ffffff";
+
+
+priceChart
+.data
+.datasets[0]
+.borderColor =
+color;
+
+
+priceChart
+.data
+.datasets[0]
+.pointBackgroundColor =
+color;
+
+
+priceChart.update();
+
+}
+
+
+/* ==============================
+   PROFILE
+============================== */
+
+function defaultAvatar(){
+
+return (
+"https://ui-avatars.com/api/" +
+"?name=ST" +
+"&background=222" +
+"&color=fff"
+);
+
+}
+
+
+function openProfile(){
+
+document
+.getElementById("profileModal")
+.classList
+.add("show");
+
+
+document
+.getElementById("nameInput")
+.value =
+localStorage.getItem("profileName")
+||
+"ST Owner";
+
+}
+
+
+function closeProfile(){
+
+document
+.getElementById("profileModal")
+.classList
+.remove("show");
+
+}
+
+
+function previewPhoto(event){
+
+const file =
+event.target.files[0];
+
+if(!file)
+return;
+
+
+const reader =
+new FileReader();
+
+
+reader.onload = e => {
+
+newPhoto =
+e.target.result;
+
+document
+.getElementById("previewAvatar")
+.src =
+newPhoto;
+
+};
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+function saveProfile(){
+
+const name =
+document
+.getElementById("nameInput")
+.value
+.trim();
+
+
+if(name){
+
+localStorage.setItem(
+"profileName",
+name
+);
+
+document
+.getElementById("profileNameTop")
+.textContent =
+name;
+
+}
+
+
+if(newPhoto){
+
+localStorage.setItem(
+"profilePhoto",
+newPhoto
+);
+
+document
+.getElementById("topAvatar")
+.src =
+newPhoto;
+
+}
+
+
+closeProfile();
+
+}
+
+
+function loadProfile(){
+
+const name =
+localStorage.getItem(
+"profileName"
+);
+
+const photo =
+localStorage.getItem(
+"profilePhoto"
+);
+
+
+document
+.getElementById("profileNameTop")
+.textContent =
+name || "ST Owner";
+
+
+document
+.getElementById("topAvatar")
+.src =
+photo || defaultAvatar();
+
+
+document
+.getElementById("previewAvatar")
+.src =
+photo || defaultAvatar();
+
+}
+
+
+/* click outside modal */
+
+document
+.getElementById("profileModal")
+.addEventListener(
+"click",
+function(event){
+
+if(event.target === this)
+closeProfile();
+
+}
+);
+
+
+/* ==============================
+   START
+============================== */
+
+loadTheme();
+
+loadProfile();
+
+updateChartTheme();
+
+render();
+
+loadCurrency();
+
+</script>
+
+</body>
+</html>
