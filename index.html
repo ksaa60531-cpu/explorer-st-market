@@ -427,6 +427,19 @@ footer {
 @media(max-width:760px){.modelHero{flex-direction:column;align-items:stretch}.carPhotoWrap{width:100%;height:210px}.langBtn{padding:0 10px}}
 
 .carPhotoWrap[data-photo-error]::after{content:attr(data-photo-error);position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:12px}
+
+.advancedGrid{margin-top:18px}
+.savingsChartWrap{height:210px;margin-top:16px}
+.marketDbHint{margin:14px 0}
+.dbYearRow,.savingRow,.compareCar{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:11px 12px;border-top:1px solid var(--border);font-size:11px}
+.dbYearRow:first-child,.savingRow:first-child{margin-top:10px}
+.compareCar{grid-template-columns:28px 1.3fr .8fr .8fr .8fr}
+.compareCar.header{color:var(--muted);font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.compareCar.favorite{outline:1px solid var(--green);border-radius:9px}
+.favoriteBtn{border:0;background:transparent;color:var(--text);cursor:pointer;font-size:17px}
+.garageNotes{min-height:84px;resize:vertical}
+@media(max-width:650px){.compareCar{grid-template-columns:28px 1fr auto}.compareCar .hideMobile{display:none}.advancedGrid{grid-template-columns:1fr}.dbYearRow{grid-template-columns:1fr auto}}
+
 </style>
 </head>
 
@@ -666,6 +679,68 @@ Market Value
 </main>
 
 
+
+<section class="featureGrid advancedGrid">
+  <div class="card">
+    <h2 data-i18n="savingsTracker">Savings Tracker</h2>
+    <div class="description" data-i18n="savingsDesc">Add deposits and track progress toward your Explorer ST.</div>
+    <div class="featureGrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="mini"><span class="statLabel" data-i18n="savedTotal">Saved total</span><b id="savingTotal">$0</b></div>
+      <div class="mini"><span class="statLabel" data-i18n="avgDeposit">Average deposit</span><b id="savingAvg">$0</b></div>
+      <div class="mini"><span class="statLabel" data-i18n="goalEta">Goal ETA</span><b id="savingEta">—</b></div>
+    </div>
+    <div class="formRow">
+      <div><label data-i18n="depositDate">Date</label><input id="savingDate" type="date"></div>
+      <div><label data-i18n="depositAmount">Deposit, USD</label><input id="savingAmount" type="number" min="1" placeholder="250"></div>
+    </div>
+    <button class="primaryBtn" id="addSavingBtn" onclick="addSaving()">+ Add deposit</button>
+    <div class="savingsChartWrap"><canvas id="savingsChart"></canvas></div>
+    <div id="savingList"></div>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="realMarketDb">Real Market Database</h2>
+    <div class="description" data-i18n="realMarketDesc">Statistics calculated from the listings you add yourself.</div>
+    <div class="featureGrid" style="grid-template-columns:1fr 1fr 1fr 1fr">
+      <div class="mini"><span class="statLabel" data-i18n="dbCount">Listings</span><b id="dbCount">0</b></div>
+      <div class="mini"><span class="statLabel" data-i18n="dbMedian">Median</span><b id="dbMedian">—</b></div>
+      <div class="mini"><span class="statLabel" data-i18n="dbMin">Minimum</span><b id="dbMin">—</b></div>
+      <div class="mini"><span class="statLabel" data-i18n="dbMax">Maximum</span><b id="dbMax">—</b></div>
+    </div>
+    <div class="smallText marketDbHint" data-i18n="dbHint">Add prices in “Add Market Price” above. This block uses those observations, not the demo market estimates.</div>
+    <div id="dbByYear"></div>
+  </div>
+</section>
+
+<section class="featureGrid advancedGrid">
+  <div class="card">
+    <h2 data-i18n="listingCompare">Listing Comparison</h2>
+    <div class="description" data-i18n="listingCompareDesc">Compare cars saved in your Watchlist. You choose the favourite.</div>
+    <div id="listingCompare"></div>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="myGarage">My Explorer Garage</h2>
+    <div class="description" data-i18n="garageDesc">Use Future Build now, then switch to Owned after you buy the car.</div>
+    <div class="formRow">
+      <div><label data-i18n="garageStatus">Status</label><select id="garageStatus"><option value="future">Future Build</option><option value="owned">Owned</option></select></div>
+      <div><label data-i18n="garageYear">Model year</label><select id="garageYear"><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
+    </div>
+    <div class="formRow">
+      <div><label>VIN</label><input id="garageVin" placeholder="VIN"></div>
+      <div><label data-i18n="garageMileage">Mileage</label><input id="garageMileage" type="number" min="0" placeholder="50000"></div>
+    </div>
+    <div class="formRow">
+      <div><label data-i18n="purchaseDate">Purchase date</label><input id="garageDate" type="date"></div>
+      <div><label data-i18n="purchasePrice">Purchase price, USD</label><input id="garagePrice" type="number" min="0" placeholder="25000"></div>
+    </div>
+    <label data-i18n="garagePower">Current power, hp</label><input class="wideInput" id="garageHp" type="number" min="0" placeholder="400">
+    <label data-i18n="garageMods">Installed mods / notes</label><textarea id="garageMods" class="wideInput garageNotes" placeholder="Intercooler, tune, wheels..."></textarea>
+    <button class="primaryBtn" id="saveGarageBtn" onclick="saveGarage()">Save garage</button>
+    <div id="garageSummary" class="smallText" style="margin-top:12px"></div>
+  </div>
+</section>
+
 <footer>
 Explorer ST Market Tracker • Prices are estimates and may differ depending on mileage, condition and vehicle history.
 </footer>
@@ -758,7 +833,7 @@ const I18N={
   purchaseCalculator:"Purchase Calculator",calcDesc:"Estimate the full landed cost in Ukraine",marketDashboard:"Market Dashboard",
   dashboardDesc:"Quick statistics for the selected model",addMarketPrice:"Add Market Price",marketEntryDesc:"Add your own observations. They are stored in this browser.",
   watchlist:"Watchlist",watchDesc:"Save listings you want to keep an eye on",powerPlanner:"Power Build Planner",
-  powerDesc:"Enter your horsepower goal and the planner will adapt the suggested build and budget.",editProfile:"Edit Profile"
+  powerDesc:"Enter your horsepower goal and the planner will adapt the suggested build and budget.",editProfile:"Edit Profile",savingsTracker:"Savings Tracker",savingsDesc:"Add deposits and track progress toward your Explorer ST.",savedTotal:"Saved total",avgDeposit:"Average deposit",goalEta:"Goal ETA",depositDate:"Date",depositAmount:"Deposit, USD",realMarketDb:"Real Market Database",realMarketDesc:"Statistics calculated from the listings you add yourself.",dbCount:"Listings",dbMedian:"Median",dbMin:"Minimum",dbMax:"Maximum",dbHint:"Add prices in “Add Market Price” above. This block uses those observations, not the demo market estimates.",listingCompare:"Listing Comparison",listingCompareDesc:"Compare cars saved in your Watchlist. You choose the favourite.",myGarage:"My Explorer Garage",garageDesc:"Use Future Build now, then switch to Owned after you buy the car.",garageStatus:"Status",garageYear:"Model year",garageMileage:"Mileage",purchaseDate:"Purchase date",purchasePrice:"Purchase price, USD",garagePower:"Current power, hp",garageMods:"Installed mods / notes"
  },
  ru:{
   marketIntelligence:"АНАЛИТИКА РЫНКА",heroSubtitle:"Отслеживание цены и падения стоимости",modelYear:"ГОД МОДЕЛИ",
@@ -767,7 +842,7 @@ const I18N={
   purchaseCalculator:"Калькулятор покупки",calcDesc:"Ориентировочная полная стоимость автомобиля в Украине",marketDashboard:"Рынок",
   dashboardDesc:"Быстрая статистика выбранного года",addMarketPrice:"Добавить рыночную цену",marketEntryDesc:"Добавляй свои наблюдения — они сохраняются в этом браузере.",
   watchlist:"Избранные объявления",watchDesc:"Сохраняй объявления, за которыми хочешь следить",powerPlanner:"Планировщик мощности",
-  powerDesc:"Укажи желаемую мощность и бюджет — планировщик подберёт ориентировочный набор доработок.",editProfile:"Редактировать профиль"
+  powerDesc:"Укажи желаемую мощность и бюджет — планировщик подберёт ориентировочный набор доработок.",editProfile:"Редактировать профиль",savingsTracker:"Накопления",savingsDesc:"Добавляй пополнения и следи за прогрессом к Explorer ST.",savedTotal:"Накоплено",avgDeposit:"Среднее пополнение",goalEta:"До цели",depositDate:"Дата",depositAmount:"Пополнение, USD",realMarketDb:"Реальная база рынка",realMarketDesc:"Статистика считается по объявлениям, которые добавляешь ты.",dbCount:"Объявлений",dbMedian:"Медиана",dbMin:"Минимум",dbMax:"Максимум",dbHint:"Добавляй цены в блоке «Добавить рыночную цену» выше. Здесь используются твои наблюдения, а не демонстрационные оценки.",listingCompare:"Сравнение объявлений",listingCompareDesc:"Сравнивай машины из Watchlist и сам отмечай избранную.",myGarage:"Мой Explorer",garageDesc:"Сейчас используй Future Build, а после покупки переключи на «Куплен».",garageStatus:"Статус",garageYear:"Год модели",garageMileage:"Пробег",purchaseDate:"Дата покупки",purchasePrice:"Цена покупки, USD",garagePower:"Текущая мощность, л.с.",garageMods:"Установленные моды / заметки"
  }
 };
 
@@ -793,7 +868,9 @@ function translateFullUI(){
  setTxt("#thChange","Change","Изменение"); setTxt("#thStatus","Status","Статус");
  setTxt("#saveGoalBtn","Save goal","Сохранить цель"); setTxt("#calculateBtn","Calculate","Рассчитать");
  setTxt("#addMarketBtn","+ Add market price","+ Добавить цену"); setTxt("#addWatchBtn","+ Add listing","+ Добавить объявление");
- setTxt("#saveBuildBtn","Save build","Сохранить билд"); setTxt("#cancelProfileBtn","Cancel","Отмена"); setTxt("#saveProfileBtn","Save","Сохранить");
+ setTxt("#saveBuildBtn","Save build","Сохранить билд");
+ setTxt("#addSavingBtn","+ Add deposit","+ Добавить пополнение");setTxt("#saveGarageBtn","Save garage","Сохранить гараж");
+ const gs=document.querySelector("#garageStatus");if(gs){gs.options[0].text=currentLang==="ru"?"Будущий билд":"Future Build";gs.options[1].text=currentLang==="ru"?"Куплен":"Owned";} setTxt("#cancelProfileBtn","Cancel","Отмена"); setTxt("#saveProfileBtn","Save","Сохранить");
  const labels=[...document.querySelectorAll("label")];
  const map={
  "Target model":"Целевая модель","Target price, USD":"Целевая цена, USD","Saved, USD":"Накоплено, USD","Target year":"Год покупки",
@@ -824,14 +901,12 @@ function toggleSound(){
  soundButton.textContent=soundEnabled?"🔊":"🔇";
  if(soundEnabled) playEagleIntro();
 }
+const eagleAudio=new Audio("https://upload.wikimedia.org/wikipedia/commons/5/59/Bald_Eagle_Yellowstone_National_Park.ogg");
+eagleAudio.preload="auto";
+eagleAudio.volume=0.95;
 function playEagleIntro(){
  if(!soundEnabled)return;
- try{
-  const AC=window.AudioContext||window.webkitAudioContext,ctx=new AC();
-  const now=ctx.currentTime, master=ctx.createGain(); master.gain.setValueAtTime(.0001,now);master.gain.exponentialRampToValueAtTime(.12,now+.04);master.gain.exponentialRampToValueAtTime(.0001,now+1.15);master.connect(ctx.destination);
-  [980,1320].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type="sawtooth";o.frequency.setValueAtTime(f,now+i*.08);o.frequency.exponentialRampToValueAtTime(f*.52,now+.55+i*.08);o.frequency.exponentialRampToValueAtTime(f*.8,now+.95+i*.08);g.gain.value=i?0.18:0.28;o.connect(g);g.connect(master);o.start(now+i*.08);o.stop(now+1.2)});
-  setTimeout(()=>ctx.close(),1500);
- }catch(e){}
+ try{eagleAudio.currentTime=0;eagleAudio.play().catch(()=>{});}catch(e){}
 }
 function armIntroSound(){
  soundButton.textContent=soundEnabled?"🔊":"🔇";
@@ -1458,7 +1533,7 @@ priceChart.update();
 function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert(currentLang==='ru'?'Добавь дату и цену.':'Add a date and price.');const a=readJSON('marketEntries');a.unshift({id:Date.now(),model:entryModel.value,date:entryDate.value,price:+entryPrice.value,mileage:+entryMileage.value||0});writeJSON('marketEntries',a);entryPrice.value='';entryMileage.value='';renderMarketEntries()}
 function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">'+(currentLang==='ru'?'Пока нет своих наблюдений.':'No custom observations yet.')+'</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
 function deleteMarketEntry(id){writeJSON('marketEntries',readJSON('marketEntries').filter(x=>x.id!==id));renderMarketEntries()}
-function addWatch(){if(!watchTitle.value)return alert(currentLang==='ru'?'Добавь название или VIN.':'Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch()}
+function addWatch(){if(!watchTitle.value)return alert(currentLang==='ru'?'Добавь название или VIN.':'Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch();renderListingCompare()}
 function renderWatch(){
  const a=readJSON('watchList'),el=document.getElementById('watchList');
  el.innerHTML=a.length?'':`<div class="smallText" style="margin-top:14px">${currentLang==='ru'?'Список пока пуст.':'Watchlist is empty.'}</div>`;
@@ -1474,7 +1549,7 @@ function renderWatch(){
  });
 }
 function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch()}
+function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch();renderListingCompare()}
 
 const BUILD_RU={
 "Stock setup":["Стоковая конфигурация","Доработки мощности не требуются."],
@@ -1528,7 +1603,79 @@ function buildYearTabs(){
   const el=document.getElementById('yearTabs'); el.innerHTML='';
   Object.keys(market).forEach(y=>{const b=document.createElement('button');b.className='yearTab'+(y===selected?' active':'');b.dataset.year=y;b.textContent=y;b.onclick=()=>selectCar(y);el.appendChild(b)});
 }
-function initV2(){buildYearTabs();yearSelect.value=selected;selectCar(selected);const today=new Date().toISOString().slice(0,10);entryDate.value=today;renderGoal();calculatePurchase();renderDashboard();renderMarketEntries();renderWatch();renderBuild();distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles'}
+
+let savingsChart=null;
+
+function median(nums){
+ const a=[...nums].sort((x,y)=>x-y); if(!a.length)return 0;
+ const m=Math.floor(a.length/2); return a.length%2?a[m]:(a[m-1]+a[m])/2;
+}
+function fmtMonthCount(n){
+ if(!Number.isFinite(n)||n<=0)return "—";
+ return currentLang==="ru"?Math.ceil(n)+" мес.":Math.ceil(n)+" mo.";
+}
+function addSaving(){
+ const date=savingDate.value,amount=+savingAmount.value;
+ if(!date||amount<=0)return alert(currentLang==="ru"?"Укажи дату и сумму пополнения.":"Add a date and deposit amount.");
+ const a=readJSON("stSavings");a.push({id:Date.now(),date,amount});writeJSON("stSavings",a);
+ savingAmount.value="";renderSavings();
+}
+function deleteSaving(id){writeJSON("stSavings",readJSON("stSavings").filter(x=>x.id!==id));renderSavings()}
+function renderSavings(){
+ const a=readJSON("stSavings").sort((x,y)=>x.date.localeCompare(y.date));
+ let running=0;const points=a.map(x=>({x:x.date,y:(running+=+x.amount)}));
+ const total=a.reduce((z,x)=>z+(+x.amount||0),0),avg=a.length?total/a.length:0;
+ savingTotal.textContent=money(total);savingAvg.textContent=a.length?money(avg):"—";
+ const goal=readJSON("stGoal",{price:market[selected].current,saved:0});
+ const remaining=Math.max(0,(+goal.price||market[selected].current)-total);
+ savingEta.textContent=remaining===0?(currentLang==="ru"?"Цель достигнута":"Goal reached"):(avg>0?fmtMonthCount(remaining/avg):"—");
+ savingList.innerHTML=a.slice().reverse().slice(0,8).map(x=>`<div class="savingRow"><span>${x.date}</span><b>+${money(x.amount)}</b><button class="dangerBtn" onclick="deleteSaving(${x.id})">×</button></div>`).join("");
+ if(savingsChart)savingsChart.destroy();
+ const ctx=document.getElementById("savingsChart");
+ if(ctx){
+   const color=document.body.classList.contains("light")?"#111111":"#ffffff";
+   savingsChart=new Chart(ctx,{type:"line",data:{labels:points.map(x=>x.x),datasets:[{data:points.map(x=>x.y),borderColor:color,pointBackgroundColor:color,borderWidth:2,tension:.25,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:"#777",maxTicksLimit:5}},y:{grid:{color:"rgba(120,120,120,.12)"},ticks:{color:"#777",callback:v=>"$"+v.toLocaleString()}}}}});
+ }
+}
+
+function renderRealMarketDB(){
+ const all=readJSON("marketEntries"), prices=all.map(x=>+x.price).filter(x=>x>0);
+ dbCount.textContent=prices.length;dbMedian.textContent=prices.length?money(median(prices)):"—";
+ dbMin.textContent=prices.length?money(Math.min(...prices)):"—";dbMax.textContent=prices.length?money(Math.max(...prices)):"—";
+ const rows=[];
+ Object.keys(market).forEach(y=>{
+   const vals=all.filter(x=>String(x.model)===y).map(x=>+x.price).filter(x=>x>0);
+   if(vals.length)rows.push(`<div class="dbYearRow"><b>${y}</b><span>${vals.length} ${currentLang==="ru"?"объявл.":"listings"}</span><span>${currentLang==="ru"?"медиана":"median"} <b>${money(median(vals))}</b></span></div>`);
+ });
+ dbByYear.innerHTML=rows.join("")||`<div class="smallText">${currentLang==="ru"?"Добавь несколько реальных цен выше — здесь появится статистика по годам.":"Add real prices above and year-by-year statistics will appear here."}</div>`;
+}
+
+function toggleFavoriteWatch(id){
+ localStorage.setItem("favoriteWatch",String(id));renderListingCompare();
+}
+function renderListingCompare(){
+ const a=readJSON("watchList"),fav=localStorage.getItem("favoriteWatch");
+ if(!a.length){listingCompare.innerHTML=`<div class="smallText" style="margin-top:14px">${currentLang==="ru"?"Сначала добавь машины в Watchlist.":"Add cars to the Watchlist first."}</div>`;return}
+ listingCompare.innerHTML=`<div class="compareCar header"><span>★</span><span>${currentLang==="ru"?"Машина":"Car"}</span><span class="hideMobile">${currentLang==="ru"?"Цена":"Price"}</span><span class="hideMobile">${currentLang==="ru"?"Пробег":"Mileage"}</span><span></span></div>`+
+ a.map(x=>`<div class="compareCar ${String(x.id)===fav?"favorite":""}"><button class="favoriteBtn" onclick="toggleFavoriteWatch(${x.id})">${String(x.id)===fav?"★":"☆"}</button><b>${escapeHTML(x.title)}</b><span class="hideMobile">${money(x.price)}</span><span class="hideMobile">${(+x.mileage||0).toLocaleString()} mi</span><span>${String(x.id)===fav?(currentLang==="ru"?"Избранное":"Favourite"):""}</span></div>`).join("");
+}
+
+function saveGarage(){
+ const g={status:garageStatus.value,year:garageYear.value,vin:garageVin.value.trim(),mileage:+garageMileage.value||0,date:garageDate.value,price:+garagePrice.value||0,hp:+garageHp.value||0,mods:garageMods.value};
+ writeJSON("stGarage",g);renderGarage(true);
+}
+function renderGarage(saved=false){
+ const g=readJSON("stGarage",{status:"future",year:selected,vin:"",mileage:0,date:"",price:0,hp:400,mods:""});
+ garageStatus.value=g.status;garageYear.value=g.year;garageVin.value=g.vin||"";garageMileage.value=g.mileage||"";garageDate.value=g.date||"";garagePrice.value=g.price||"";garageHp.value=g.hp||400;garageMods.value=g.mods||"";
+ const status=g.status==="owned"?(currentLang==="ru"?"Куплен":"Owned"):(currentLang==="ru"?"Будущий билд":"Future Build");
+ garageSummary.textContent=`${status} • ${g.year}${g.price?" • "+money(g.price):""}${g.hp?" • "+g.hp+" hp":""}`+(saved?(currentLang==="ru"?" • Сохранено":" • Saved"):"");
+}
+
+function renderAdvanced(){
+ renderSavings();renderRealMarketDB();renderListingCompare();renderGarage(false);
+}
+
+function initV2(){buildYearTabs();yearSelect.value=selected;selectCar(selected);const today=new Date().toISOString().slice(0,10);entryDate.value=today;savingDate.value=today;renderGoal();calculatePurchase();renderDashboard();renderMarketEntries();renderWatch();renderBuild();distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles'}
 
 
 /* ==============================
