@@ -417,6 +417,15 @@ footer {
 .warningBox{margin-top:12px;padding:12px;border:1px solid #735d25;border-radius:10px;background:rgba(190,145,40,.08);font-size:11px;color:var(--muted);line-height:1.45}
 @media(max-width:600px){.modelHero{margin-left:20px;margin-right:20px}.yearTabs{display:none}.planItem{grid-template-columns:1fr}}
 
+
+.langBtn,.soundBtn{height:42px;min-width:42px;padding:0 12px;border-radius:21px;border:1px solid var(--border);background:var(--card2);color:var(--text);cursor:pointer;font-weight:800}
+.modelHero{overflow:hidden}
+.modelHeroCopy{flex:1;min-width:260px}
+.carPhotoWrap{width:min(46%,480px);height:230px;position:relative;border-radius:14px;overflow:hidden;background:var(--card2);border:1px solid var(--border)}
+.carPhoto{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s}
+.photoYear{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.72);color:white;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:800}
+@media(max-width:760px){.modelHero{flex-direction:column;align-items:stretch}.carPhotoWrap{width:100%;height:210px}.langBtn{padding:0 10px}}
+
 </style>
 </head>
 
@@ -430,6 +439,8 @@ footer {
 </div>
 
 <div class="actions">
+<button class="langBtn" id="langButton" onclick="toggleLanguage()">RU</button>
+<button class="soundBtn" id="soundButton" onclick="toggleSound()" title="Intro sound">🔊</button>
 
 <button class="theme" id="themeButton" onclick="toggleTheme()">
 ☀
@@ -455,17 +466,13 @@ ST Owner
 
 <section class="hero">
 
-<div class="small">
-MARKET INTELLIGENCE
-</div>
+<div class="small" data-i18n="marketIntelligence">MARKET INTELLIGENCE</div>
 
 <h1>
 FORD EXPLORER ST
 </h1>
 
-<p>
-Market value & depreciation tracker
-</p>
+<p data-i18n="heroSubtitle">Market value & depreciation tracker</p>
 
 </section>
 
@@ -473,7 +480,7 @@ Market value & depreciation tracker
 
 <div class="yearNav">
   <div class="yearPickerWrap">
-    <span class="yearPickerLabel">MODEL YEAR</span>
+    <span class="yearPickerLabel" data-i18n="modelYear">MODEL YEAR</span>
     <select id="yearSelect" class="yearSelect" onchange="selectCar(this.value)">
       <option value="2020">2020</option>
       <option value="2021">2021</option>
@@ -488,12 +495,16 @@ Market value & depreciation tracker
 </div>
 
 <section class="modelHero">
-  <div>
-    <div class="smallText">SELECTED EXPLORER ST</div>
+  <div class="modelHeroCopy">
+    <div class="smallText" data-i18n="selectedExplorer">SELECTED EXPLORER ST</div>
     <h2 id="modelPageTitle">2020 FORD EXPLORER ST</h2>
     <p id="modelPageText">Market, ownership and build planning dashboard.</p>
+    <span class="badge" id="modelGenerationBadge">6TH GEN</span>
   </div>
-  <span class="badge" id="modelGenerationBadge">6TH GEN</span>
+  <div class="carPhotoWrap">
+    <img id="carPhoto" class="carPhoto" alt="Ford Explorer ST">
+    <div class="photoYear" id="photoYear">2020</div>
+  </div>
 </section>
 
 <main>
@@ -501,17 +512,17 @@ Market value & depreciation tracker
 <div class="stats">
 
 <div class="stat">
-<div class="statLabel">Original MSRP</div>
+<div class="statLabel" data-i18n="originalMsrp">Original MSRP</div>
 <div class="statValue" id="msrp"></div>
 </div>
 
 <div class="stat">
-<div class="statLabel">Current Market</div>
+<div class="statLabel" data-i18n="currentMarket">Current Market</div>
 <div class="statValue green" id="current"></div>
 </div>
 
 <div class="stat">
-<div class="statLabel">2030 Estimate</div>
+<div class="statLabel" data-i18n="estimate2030">2030 Estimate</div>
 <div class="statValue" id="future"></div>
 </div>
 
@@ -544,13 +555,9 @@ Estimated Explorer ST depreciation over time
 
 <div class="card">
 
-<h2>
-Market History
-</h2>
+<h2 data-i18n="marketHistory">Market History</h2>
 
-<div class="description">
-USD and UAH values for the selected model
-</div>
+<div class="description" data-i18n="historyDesc">USD and UAH values for the selected model</div>
 
 <div class="tableWrap">
 
@@ -579,7 +586,7 @@ USD and UAH values for the selected model
 
 <div class="grid2">
   <div class="card">
-    <div class="sectionTitle"><div><h2>My Goal</h2><div class="description">Your Explorer ST purchase target</div></div><span class="badge" id="goalPercent">0%</span></div>
+    <div class="sectionTitle"><div><h2 data-i18n="myGoal">My Goal</h2><div class="description"><span data-i18n="goalDesc">Your Explorer ST purchase target</span></div></div><span class="badge" id="goalPercent">0%</span></div>
     <div class="inputGrid">
       <div><label>Target model</label><select id="goalModel"><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
       <div><label>Target price, USD</label><input id="goalPrice" type="number" value="20000"></div>
@@ -592,7 +599,7 @@ USD and UAH values for the selected model
   </div>
 
   <div class="card">
-    <h2>Purchase Calculator</h2><div class="description">Estimate the full landed cost in Ukraine</div>
+    <h2 data-i18n="purchaseCalculator">Purchase Calculator</h2><div class="description"><span data-i18n="calcDesc">Estimate the full landed cost in Ukraine</span></div>
     <div class="inputGrid">
       <div><label>Car price, USD</label><input id="calcCar" type="number" value="20000"></div>
       <div><label>Shipping, USD</label><input id="calcShip" type="number" value="2500"></div>
@@ -609,7 +616,7 @@ USD and UAH values for the selected model
 </div>
 
 <div class="card">
-  <div class="sectionTitle"><div><h2>Market Dashboard</h2><div class="description">Quick statistics for the selected model</div></div><div class="compareControls"><button class="secondaryBtn" onclick="setDistanceUnit()" id="distanceBtn">Miles → KM</button><button class="secondaryBtn" onclick="toggleCompare()" id="compareBtn">Compare all years</button></div></div>
+  <div class="sectionTitle"><div><h2 data-i18n="marketDashboard">Market Dashboard</h2><div class="description"><span data-i18n="dashboardDesc">Quick statistics for the selected model</span></div></div><div class="compareControls"><button class="secondaryBtn" onclick="setDistanceUnit()" id="distanceBtn">Miles → KM</button><button class="secondaryBtn" onclick="toggleCompare()" id="compareBtn">Compare all years</button></div></div>
   <div class="featureGrid">
     <div class="mini"><span class="statLabel">Depreciation from MSRP</span><b id="depStat">—</b></div>
     <div class="mini"><span class="statLabel">Lowest observed</span><b id="lowStat">—</b></div>
@@ -618,7 +625,7 @@ USD and UAH values for the selected model
 </div>
 
 <div class="card">
-  <h2>Add Market Price</h2><div class="description">Add your own observations. They are stored in this browser.</div>
+  <h2 data-i18n="addMarketPrice">Add Market Price</h2><div class="description"><span data-i18n="marketEntryDesc">Add your own observations. They are stored in this browser.</span></div>
   <div class="inputGrid">
     <div><label>Model year</label><select id="entryModel"><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
     <div><label>Date</label><input id="entryDate" type="date"></div>
@@ -631,7 +638,7 @@ USD and UAH values for the selected model
 
 <div class="grid2">
   <div class="card">
-    <h2>Watchlist</h2><div class="description">Save listings you want to keep an eye on</div>
+    <h2 data-i18n="watchlist">Watchlist</h2><div class="description"><span data-i18n="watchDesc">Save listings you want to keep an eye on</span></div>
     <div class="inputGrid">
       <div><label>Title / VIN</label><input id="watchTitle" placeholder="2020 ST / VIN"></div>
       <div><label>Price, USD</label><input id="watchPrice" type="number"></div>
@@ -642,7 +649,7 @@ USD and UAH values for the selected model
   </div>
 
   <div class="card">
-    <h2>Power Build Planner</h2><div class="description">Enter your horsepower goal and the planner will adapt the suggested build and budget.</div>
+    <h2 data-i18n="powerPlanner">Power Build Planner</h2><div class="description"><span data-i18n="powerDesc">Enter your horsepower goal and the planner will adapt the suggested build and budget.</span></div>
     <div class="featureGrid" style="grid-template-columns:1fr 1fr 1fr">
       <div class="mini"><span class="statLabel">Stock power</span><b id="stockHpText">400 hp</b></div>
       <div class="mini"><span class="statLabel">Target</span><b id="hpTargetText">500 hp</b></div>
@@ -669,7 +676,7 @@ Explorer ST Market Tracker • Prices are estimates and may differ depending on 
 
 <div class="modal">
 
-<h2>Edit Profile</h2>
+<h2 data-i18n="editProfile">Edit Profile</h2>
 
 <div class="preview">
 <img id="previewAvatar" alt="Profile preview">
@@ -734,6 +741,84 @@ let selected = "2020";
 let usdUah = 41.5;
 
 let newPhoto = null;
+
+let currentLang=localStorage.getItem("siteLang")||"en";
+let soundEnabled=localStorage.getItem("introSound")!=="off";
+
+const carPhotos={
+ "2020":"https://rpmweb.ca/medias/0029b2eceac2da969f2e111d0dfc1fed.jpg",
+ "2021":"https://rpmweb.ca/medias/0029b2eceac2da969f2e111d0dfc1fed.jpg",
+ "2022":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
+ "2023":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
+ "2024":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
+ "2025":"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",
+ "2026":"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440"
+};
+
+const I18N={
+ en:{
+  marketIntelligence:"MARKET INTELLIGENCE",heroSubtitle:"Market value & depreciation tracker",modelYear:"MODEL YEAR",
+  selectedExplorer:"SELECTED EXPLORER ST",originalMsrp:"Original MSRP",currentMarket:"Current Market",estimate2030:"2030 Estimate",
+  marketHistory:"Market History",historyDesc:"USD and UAH values for the selected model",myGoal:"My Goal",goalDesc:"Your Explorer ST purchase target",
+  purchaseCalculator:"Purchase Calculator",calcDesc:"Estimate the full landed cost in Ukraine",marketDashboard:"Market Dashboard",
+  dashboardDesc:"Quick statistics for the selected model",addMarketPrice:"Add Market Price",marketEntryDesc:"Add your own observations. They are stored in this browser.",
+  watchlist:"Watchlist",watchDesc:"Save listings you want to keep an eye on",powerPlanner:"Power Build Planner",
+  powerDesc:"Enter your horsepower goal and the planner will adapt the suggested build and budget.",editProfile:"Edit Profile"
+ },
+ ru:{
+  marketIntelligence:"АНАЛИТИКА РЫНКА",heroSubtitle:"Отслеживание цены и падения стоимости",modelYear:"ГОД МОДЕЛИ",
+  selectedExplorer:"ВЫБРАННЫЙ EXPLORER ST",originalMsrp:"Цена новым (MSRP)",currentMarket:"Текущая цена",estimate2030:"Прогноз на 2030",
+  marketHistory:"История рынка",historyDesc:"Стоимость выбранной модели в USD и UAH",myGoal:"Моя цель",goalDesc:"Твоя цель по покупке Explorer ST",
+  purchaseCalculator:"Калькулятор покупки",calcDesc:"Ориентировочная полная стоимость автомобиля в Украине",marketDashboard:"Рынок",
+  dashboardDesc:"Быстрая статистика выбранного года",addMarketPrice:"Добавить рыночную цену",marketEntryDesc:"Добавляй свои наблюдения — они сохраняются в этом браузере.",
+  watchlist:"Избранные объявления",watchDesc:"Сохраняй объявления, за которыми хочешь следить",powerPlanner:"Планировщик мощности",
+  powerDesc:"Укажи желаемую мощность и бюджет — планировщик подберёт ориентировочный набор доработок.",editProfile:"Редактировать профиль"
+ }
+};
+
+function t(k){return (I18N[currentLang]&&I18N[currentLang][k])||I18N.en[k]||k}
+function applyLanguage(){
+ document.documentElement.lang=currentLang;
+ document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(t(k))el.textContent=t(k)});
+ langButton.textContent=currentLang==="en"?"RU":"EN";
+ localStorage.setItem("siteLang",currentLang);
+ render();
+ renderGoal(); renderMarketEntries(); renderWatch(); renderBuild();
+ distanceBtn.textContent=distanceUnit==="mi"?(currentLang==="ru"?"Мили → КМ":"Miles → KM"):(currentLang==="ru"?"КМ → Мили":"KM → Miles");
+ compareBtn.textContent=compareMode?(currentLang==="ru"?"Показать выбранный год":"Show selected model"):(currentLang==="ru"?"Сравнить все годы":"Compare all years");
+}
+function toggleLanguage(){currentLang=currentLang==="en"?"ru":"en";applyLanguage()}
+
+function updateCarPhoto(){
+ const img=document.getElementById("carPhoto"); if(!img)return;
+ img.style.opacity=".25"; img.src=carPhotos[selected]||carPhotos["2020"]; img.alt=selected+" Ford Explorer ST";
+ img.onload=()=>img.style.opacity="1"; img.onerror=()=>{img.style.opacity=".25";img.alt="Photo unavailable"};
+ document.getElementById("photoYear").textContent=selected;
+}
+
+function toggleSound(){
+ soundEnabled=!soundEnabled; localStorage.setItem("introSound",soundEnabled?"on":"off");
+ soundButton.textContent=soundEnabled?"🔊":"🔇";
+ if(soundEnabled) playEagleIntro();
+}
+function playEagleIntro(){
+ if(!soundEnabled)return;
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext,ctx=new AC();
+  const now=ctx.currentTime, master=ctx.createGain(); master.gain.setValueAtTime(.0001,now);master.gain.exponentialRampToValueAtTime(.12,now+.04);master.gain.exponentialRampToValueAtTime(.0001,now+1.15);master.connect(ctx.destination);
+  [980,1320].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type="sawtooth";o.frequency.setValueAtTime(f,now+i*.08);o.frequency.exponentialRampToValueAtTime(f*.52,now+.55+i*.08);o.frequency.exponentialRampToValueAtTime(f*.8,now+.95+i*.08);g.gain.value=i?0.18:0.28;o.connect(g);g.connect(master);o.start(now+i*.08);o.stop(now+1.2)});
+  setTimeout(()=>ctx.close(),1500);
+ }catch(e){}
+}
+function armIntroSound(){
+ soundButton.textContent=soundEnabled?"🔊":"🔇";
+ if(!soundEnabled)return;
+ // Browsers commonly block sound before a user gesture. Try once, then retry on first interaction.
+ playEagleIntro();
+ const once=()=>{playEagleIntro();document.removeEventListener("pointerdown",once)};
+ document.addEventListener("pointerdown",once,{once:true});
+}
+
 
 
 /* ==============================
@@ -866,11 +951,12 @@ selected=String(year);
 document.getElementById("yearSelect").value=selected;
 document.querySelectorAll(".yearTab").forEach(b=>b.classList.toggle("active",b.dataset.year===selected));
 document.getElementById("modelPageTitle").textContent=selected+" FORD EXPLORER ST";
-document.getElementById("modelPageText").textContent=(+selected>=2025?"Facelift model":"Sixth-generation model")+" • market, ownership and build planning dashboard.";
+document.getElementById("modelPageText").textContent=currentLang==="ru"?((+selected>=2025?"Рестайлинг":"Шестое поколение")+" • рынок, владение и планирование билда."):((+selected>=2025?"Facelift model":"Sixth-generation model")+" • market, ownership and build planning dashboard.");
 document.getElementById("modelGenerationBadge").textContent=(+selected>=2025?"FACELIFT":"6TH GEN");
 if(compareMode) compareMode=false;
 render();
 renderBuild();
+updateCarPhoto();
 }
 
 
@@ -910,7 +996,7 @@ document
 .textContent =
 "Explorer ST " +
 selected +
-" — Market Value";
++(currentLang==="ru"?" — Рыночная стоимость":" — Market Value");
 
 
 if(!compareMode) priceChart.data.labels =
@@ -959,14 +1045,13 @@ car.msrp
 100
 );
 
-let status =
-"Historical";
+let status = currentLang==="ru"?"История":"Historical";
 
 if(year === 2026)
-status = "Current";
+status = currentLang==="ru"?"Сейчас":"Current";
 
 if(year > 2026)
-status = "Estimate";
+status = currentLang==="ru"?"Прогноз":"Estimate";
 
 
 const row =
@@ -1323,7 +1408,7 @@ const money=n=>'$'+Math.round(Number(n)||0).toLocaleString();
 function readJSON(k,f=[]){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}}
 function writeJSON(k,v){localStorage.setItem(k,JSON.stringify(v))}
 function saveGoal(){const g={model:goalModel.value,price:+goalPrice.value||0,saved:+goalSaved.value||0,year:+goalYear.value||2030};writeJSON('stGoal',g);renderGoal()}
-function renderGoal(){const g=readJSON('stGoal',{model:'2020',price:20000,saved:0,year:2030});goalModel.value=g.model;goalPrice.value=g.price;goalSaved.value=g.saved;goalYear.value=g.year;const pct=g.price?Math.min(100,g.saved/g.price*100):0;goalBar.style.width=pct+'%';goalPercent.textContent=pct.toFixed(1)+'%';goalText.textContent=money(g.saved)+' of '+money(g.price)+' • '+money(Math.max(0,g.price-g.saved))+' remaining • target '+g.year}
+function renderGoal(){const g=readJSON('stGoal',{model:'2020',price:20000,saved:0,year:2030});goalModel.value=g.model;goalPrice.value=g.price;goalSaved.value=g.saved;goalYear.value=g.year;const pct=g.price?Math.min(100,g.saved/g.price*100):0;goalBar.style.width=pct+'%';goalPercent.textContent=pct.toFixed(1)+'%';goalText.textContent=currentLang==="ru"?(money(g.saved)+" из "+money(g.price)+" • осталось "+money(Math.max(0,g.price-g.saved))+" • цель "+g.year):(money(g.saved)+" of "+money(g.price)+" • "+money(Math.max(0,g.price-g.saved))+" remaining • target "+g.year)}
 function calculatePurchase(){const total=(+calcCar.value||0)+(+calcShip.value||0)+(+calcTax.value||0)+(+calcRepair.value||0);calcUSD.textContent=money(total);calcUAH.textContent='₴'+Math.round(total*usdUah).toLocaleString()}
 function renderDashboard(){const c=market[selected], dep=(c.current-c.msrp)/c.msrp*100;depStat.textContent=dep.toFixed(1)+'%';lowStat.textContent=money(Math.min(...c.prices));highStat.textContent=money(Math.max(...c.prices))}
 function setDistanceUnit(){distanceUnit=distanceUnit==='mi'?'km':'mi';localStorage.setItem('distanceUnit',distanceUnit);distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles';renderMarketEntries();renderWatch()}
@@ -1347,13 +1432,26 @@ if(compareMode){
 }
 priceChart.update();
 }
-function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert('Add a date and price.');const a=readJSON('marketEntries');a.unshift({id:Date.now(),model:entryModel.value,date:entryDate.value,price:+entryPrice.value,mileage:+entryMileage.value||0});writeJSON('marketEntries',a);entryPrice.value='';entryMileage.value='';renderMarketEntries()}
-function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">No custom observations yet.</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
+function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert(currentLang==='ru'?'Добавь дату и цену.':'Add a date and price.');const a=readJSON('marketEntries');a.unshift({id:Date.now(),model:entryModel.value,date:entryDate.value,price:+entryPrice.value,mileage:+entryMileage.value||0});writeJSON('marketEntries',a);entryPrice.value='';entryMileage.value='';renderMarketEntries()}
+function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">'+(currentLang==='ru'?'Пока нет своих наблюдений.':'No custom observations yet.')+'</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
 function deleteMarketEntry(id){writeJSON('marketEntries',readJSON('marketEntries').filter(x=>x.id!==id));renderMarketEntries()}
-function addWatch(){if(!watchTitle.value)return alert('Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch()}
-function renderWatch(){const a=readJSON('watchList'),el=document.getElementById('watchList');el.innerHTML=a.length?'':'<div class="smallText" style="margin-top:14px">Watchlist is empty.</div>';a.forEach(x=>{let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);const d=document.createElement('div');d.className='watchItem';const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${safeLink?`<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">Open listing</a>`:'<span class="smallText">No link</span>'}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;el.appendChild(d)})}
+function addWatch(){if(!watchTitle.value)return alert(currentLang==='ru'?'Добавь название или VIN.':'Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch()}
+function renderWatch(){const a=readJSON('watchList'),el=document.getElementById('watchList');el.innerHTML=a.length?'':'<div class="smallText" style="margin-top:14px">'+(currentLang==='ru'?'Список пока пуст.':'Watchlist is empty.')+'</div>';a.forEach(x=>{let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);const d=document.createElement('div');d.className='watchItem';const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${safeLink?`<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">${currentLang==='ru'?'Открыть':'Open listing'}</a>`:'<span class="smallText">${currentLang==='ru'?'Нет ссылки':'No link'}</span>'}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;el.appendChild(d)})}
 function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch()}
+
+const BUILD_RU={
+"Stock setup":["Стоковая конфигурация","Доработки мощности не требуются."],
+"ECU calibration / dyno tune":["Настройка ECU / диностенд","Профессиональная калибровка под конкретную машину и топливо."],
+"Upgraded intercooler":["Улучшенный интеркулер","Помогает контролировать температуру впуска."],
+"Charge pipes / intake path":["Пайпы / впуск","Улучшение воздушного тракта."],
+"Transmission calibration":["Настройка трансмиссии","Согласование переключений с увеличенным крутящим моментом."],
+"Fuel-system / fuel-quality supporting upgrades":["Поддержка топливной системы","Конкретные компоненты зависят от настройки, топлива и цели."],
+"Higher-flow turbo hardware":["Турбо-компоненты большей производительности","На этом уровне проект становится значительно сложнее."],
+"Advanced supporting hardware & custom dyno work":["Расширенные доработки и индивидуальная настройка","Особенно важны охлаждение, топливная система и проверка трансмиссии."]
+};
+function buildLabel(x){return currentLang==="ru"&&BUILD_RU[x.name]?{name:BUILD_RU[x.name][0],note:BUILD_RU[x.name][1]}:x}
+
 function getBuildPlan(hp){
   const stock=market[selected].stockHp||400;
   const target=Math.max(stock,Math.min(650,Number(hp)||stock));
@@ -1376,15 +1474,15 @@ function planBuild(){
   hpTargetText.textContent=p.target+' hp';
   stockHpText.textContent=(market[selected].stockHp||400)+' hp';
   buildCostText.textContent=money(p.total);
-  buildPlan.innerHTML=p.items.map(x=>`<div class="planItem"><div><b>${x.name}</b><small>${x.note}</small></div><div class="planPrice">${money(x.price)}</div></div>`).join('');
+  buildPlan.innerHTML=p.items.map(x=>{const q=buildLabel(x);return `<div class="planItem"><div><b>${q.name}</b><small>${q.note}</small></div><div class="planPrice">${money(x.price)}</div></div>`}).join('');
   const diff=budget-p.total;
-  buildSummary.textContent=(budget?`Budget ${money(budget)} • `:'')+(diff>=0?`${money(diff)} left after estimated parts`:`about ${money(Math.abs(diff))} over your entered budget`);
-  if(p.target>525) buildPlan.insertAdjacentHTML('beforeend','<div class="warningBox">Higher-power setups need a reputable professional tuner and supporting checks. This planner is a budgeting guide, not installation instructions; exact parts and safe limits depend on the specific vehicle, fuel and condition.</div>');
+  buildSummary.textContent=currentLang==="ru"?((budget?`Бюджет ${money(budget)} • `:"")+(diff>=0?`останется примерно ${money(diff)}`:`примерно на ${money(Math.abs(diff))} выше бюджета`)):((budget?`Budget ${money(budget)} • `:"")+(diff>=0?`${money(diff)} left after estimated parts`:`about ${money(Math.abs(diff))} over your entered budget`));
+  if(p.target>525) buildPlan.insertAdjacentHTML("beforeend",`<div class="warningBox">${currentLang==="ru"?"Для мощных конфигураций нужен профессиональный тюнер и проверка автомобиля. Планировщик нужен для оценки бюджета; точный набор деталей и безопасные пределы зависят от конкретной машины, топлива и её состояния.":"Higher-power setups need a reputable professional tuner and supporting checks. This planner is a budgeting guide, not installation instructions; exact parts and safe limits depend on the specific vehicle, fuel and condition."}</div>`);
 }
 function saveBuild(showMessage=true){
   const b={model:selected,hp:+hpTarget.value||500,budget:+modBudget.value||0,notes:buildNotes.value};
   writeJSON('stBuild_'+selected,b); planBuild();
-  if(showMessage) buildSummary.textContent+=' • Saved for '+selected;
+  if(showMessage) buildSummary.textContent+=(currentLang==='ru'?' • Сохранено для ':' • Saved for ')+selected;
 }
 function renderBuild(){
   const b=readJSON('stBuild_'+selected,{model:selected,hp:500,budget:3000,notes:''});
@@ -1410,6 +1508,8 @@ updateChartTheme();
 render();
 
 initV2();
+applyLanguage();
+armIntroSound();
 
 loadCurrency();
 
