@@ -466,6 +466,10 @@ header{position:relative}
 .galleryStripWrap,.carThumbs{display:none!important}
 .galleryStage img{min-width:0}
 
+
+.generationPhotoBadge{position:absolute;left:14px;bottom:14px;z-index:4;padding:7px 10px;border-radius:8px;background:rgba(0,0,0,.66);backdrop-filter:blur(7px);color:#fff;font-size:8px;font-weight:900;letter-spacing:1px}
+.galleryCaption{background:rgba(0,0,0,.55);padding:8px 11px;border-radius:8px}
+
 </style>
 </head>
 
@@ -546,6 +550,7 @@ FORD EXPLORER ST
   <div class="carPhotoWrap">
     <img id="carPhoto" class="carPhoto" onclick="openGallery(0)" title="Открыть фотогалерею" alt="Ford Explorer ST">
     <div class="photoYear" id="photoYear">2020</div>
+<div class="generationPhotoBadge" id="generationPhotoBadge"></div>
 <div class="photoOpenHint" onclick="openGallery(0)">⛶ <span id="photoOpenText">Открыть галерею</span></div>
   </div>
 </section>
@@ -899,87 +904,33 @@ const carPhotos={
  "2026":"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg"
 };
 
-const carGalleries={
-"2020":[
- {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"Кузов • перед"},
- {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Кузов • 3/4"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • передняя панель"},
- {src:"https://www.reinaintlauto.com/imagetag/3592/main/f/Used-2023-Ford-Explorer-ST-4x4.jpg",label:"Кузов • ST детали"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"Кузов • сзади"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • вид сзади"},
- {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Кузов • профиль ST"},
- {src:"https://citymagazine.si/wp-content/uploads/2024/02/2025-ford-explorer-st-8.jpg",label:"Кузов • задняя часть"}
+const galleryGroups={
+"2020-2024":[
+ {src:"https://blog.consumerguide.com/wp-content/uploads/sites/2/2020/03/Screen-Shot-2020-03-19-at-2.09.50-PM.png",label:"Перед • Explorer ST 2020–2024"},
+ {src:"https://imagescdn.dealercarsearch.com/Media/24134/23040524/638944609782342669.jpg",label:"Салон • Explorer ST 2020"},
+ {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Панель • поколение 2020–2024"},
+ {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Кузов • ST 2020–2024"},
+ {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Перед 3/4 • ST 2020–2024"},
+ {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"Зад 3/4 • ST 2020–2024"}
 ],
-"2021":[
- {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"2021 • перед 3/4"},
- {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"Кузов • ST"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • кокпит"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"Кузов • задний 3/4"},
- {src:"https://www.reinaintlauto.com/imagetag/3592/main/f/Used-2023-Ford-Explorer-ST-4x4.jpg",label:"Кузов • перед"},
- {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"ST • экстерьер"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • сзади"},
- {src:"https://www.ford.ca/is/image/content/dam/vdm_ford/live/en_ca/ford/nameplate/explorer/2024/collections/dm/21_FRD_EPR_51579.tif?croppathe=1_21x9&wid=1440",label:"Салон / кузов • поколение"}
-],
-"2022":[
- {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"2022 • ST"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"Кузов • задний 3/4"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • приборная панель"},
- {src:"https://www.reinaintlauto.com/imagetag/3592/main/f/Used-2023-Ford-Explorer-ST-4x4.jpg",label:"Кузов • перед"},
- {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Кузов • 3/4"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • сзади"},
- {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"ST • экстерьер"},
- {src:"https://www.ford.ca/is/image/content/dam/vdm_ford/live/en_ca/ford/nameplate/explorer/2024/collections/dm/21_FRD_EPR_51579.tif?croppathe=1_21x9&wid=1440",label:"Салон / кузов • поколение"}
-],
-"2023":[
- {src:"https://www.reinaintlauto.com/imagetag/3592/main/f/Used-2023-Ford-Explorer-ST-4x4.jpg",label:"2023 • перед 3/4"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"2023 • задний 3/4"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • кокпит"},
- {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Кузов • ST"},
- {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"Кузов • перед"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • сзади"},
- {src:"https://cdn.shop.unitesta.com/images/0/4eb6ea115d91f1e8/2/2020-ford-explorer-st-4x4-black.jpg",label:"ST • экстерьер"},
- {src:"https://www.ford.ca/is/image/content/dam/vdm_ford/live/en_ca/ford/nameplate/explorer/2024/collections/dm/21_FRD_EPR_51579.tif?croppathe=1_21x9&wid=1440",label:"Салон / кузов • поколение"}
-],
-"2024":[
- {src:"https://images.autozeitung.de/ford-explorer-facelift-2024-vorstellung-01jpg%2Cid%3Deea3d942%2Cb%3Dautozeitung%2Cw%3D1600%2Crm%3Dsk.jpeg",label:"2024 • перед"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • сзади"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • кокпит"},
- {src:"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",label:"Кузов • ST"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"Кузов • задний 3/4"},
- {src:"https://www.reinaintlauto.com/imagetag/3592/main/f/Used-2023-Ford-Explorer-ST-4x4.jpg",label:"Кузов • перед 3/4"},
- {src:"https://assets.cai-media-management.com/resize/1024x1024/common-vehicle-media/4dc03f52-5d41-44bb-9915-cdff2db583d2.jpg",label:"ST • экстерьер"},
- {src:"https://www.ford.ca/is/image/content/dam/vdm_ford/live/en_ca/ford/nameplate/explorer/2024/collections/dm/21_FRD_EPR_51579.tif?croppathe=1_21x9&wid=1440",label:"Салон / кузов • поколение"}
-],
-"2025":[
- {src:"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",label:"2025 • ST"},
- {src:"https://citymagazine.si/wp-content/uploads/2024/02/2025-ford-explorer-st-8.jpg",label:"2025 • сзади"},
- {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",label:"2025 • перед"},
- {src:"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg",label:"2025 • кузов"},
- {src:"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440",label:"ST • экстерьер"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • общий вид"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • задняя часть"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"ST • задний 3/4"}
-],
-"2026":[
- {src:"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440",label:"2026 • ST"},
- {src:"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg",label:"Facelift • кузов"},
- {src:"https://citymagazine.si/wp-content/uploads/2024/02/2025-ford-explorer-st-8.jpg",label:"Facelift • сзади"},
- {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",label:"Facelift • перед"},
- {src:"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",label:"ST • экстерьер"},
- {src:"https://acnews.blob.core.windows.net/imgnews/paragraph/NPAZ_d9cf8fff58e14114aead2b6e4c203ee4.jpg",label:"Салон • общий вид"},
- {src:"https://blog.kakaocdn.net/dna/pnkeR/btsJK4LV4pw/AAAAAAAAAAAAAAAAAAAAAHkd8YFxWQcK3AsPw79xOPVWRaTRMw_sZxsVNhxx6XqB/img.jpg",label:"Кузов • задняя часть"},
- {src:"https://cdn.dealrimages.com/LE/FE/QC/MZVMVZVARVC0GH.jpg?h=1000",label:"ST • задний 3/4"}
-]}
-let galleryIndex=0;
-function galleryForYear(){return carGalleries[String(selected)]||[]}
+"2025-2026":[
+ {src:"https://www.carscoops.com/wp-content/uploads/2024/02/2025-Ford-Explorer-Platinum_2025-Ford-Explorer-ST-copy.jpg",label:"Перед • Explorer ST 2025–2026"},
+ {src:"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440",label:"Перед • Explorer ST 2026"},
+ {src:"https://www.midwaymiami.com/inventoryphotos/21957/1fmwk7gc7tga72415/ip/4.jpg?bg-color=FFFFFF&timestamp=2026-04-12T10%3A45%3A18Z&width=1200",label:"Зад 3/4 • Explorer ST 2026"},
+ {src:"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",label:"Кузов • Explorer ST 2025"},
+ {src:"https://citymagazine.si/wp-content/uploads/2024/02/2025-ford-explorer-st-8.jpg",label:"Зад • Explorer ST 2025"},
+ {src:"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",label:"Перед • Explorer ST 2025"}
+]};
+function galleryGroupForYear(){return Number(selected)>=2025?"2025-2026":"2020-2024"}
+function galleryForYear(){return galleryGroups[galleryGroupForYear()]||[]}
 function renderThumbs(){}
 function openGallery(i=0){
  const arr=galleryForYear();if(!arr.length)return;
  galleryIndex=(i+arr.length)%arr.length;
  const modal=document.getElementById("galleryModal"),img=document.getElementById("galleryImage");
- img.onerror=()=>{ if(arr.length>1){ galleryIndex=(galleryIndex+1)%arr.length; img.src=arr[galleryIndex].src; document.getElementById("galleryCaption").textContent=`${selected} Ford Explorer ST • ${arr[galleryIndex].label} • ${galleryIndex+1}/${arr.length}`; } };
- img.src=arr[galleryIndex].src;img.alt=`${selected} Ford Explorer ST • ${arr[galleryIndex].label}`;
- document.getElementById("galleryCaption").textContent=`${selected} Ford Explorer ST • ${arr[galleryIndex].label} • ${galleryIndex+1}/${arr.length}`;
+ img.onerror=()=>{ if(arr.length>1){ galleryIndex=(galleryIndex+1)%arr.length; img.src=arr[galleryIndex].src; document.getElementById("galleryCaption").textContent=`${selected} Explorer ST • ${arr[galleryIndex].label} • ${galleryIndex+1}/${arr.length}`; } };
+ img.src=arr[galleryIndex].src;img.alt=`${selected} Explorer ST • ${arr[galleryIndex].label}`;
+ document.getElementById("galleryCaption").textContent=`${selected} Explorer ST • ${arr[galleryIndex].label} • ${galleryIndex+1}/${arr.length}`;
  modal.classList.add("open");document.body.classList.add("modalOpen");
 }
 function moveGallery(step){openGallery(galleryIndex+step)}
@@ -1052,6 +1003,8 @@ function translateFullUI(){
 
 
 function updateCarPhoto(){
+ const gb=document.getElementById("generationPhotoBadge");
+ if(gb)gb.textContent=Number(selected)>=2025?(currentLang==="ru"?"РЕСТАЙЛИНГ • 2025–2026":"REFRESH • 2025–2026"):(currentLang==="ru"?"ДОРЕСТАЙЛ • 2020–2024":"PRE-REFRESH • 2020–2024");
  const img=document.getElementById("carPhoto"); if(!img)return;
  img.style.opacity=".25"; img.src=carPhotos[selected]||carPhotos["2020"]; img.alt=selected+" Ford Explorer ST";
  img.onload=()=>{img.style.opacity="1";};
