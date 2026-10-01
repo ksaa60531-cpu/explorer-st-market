@@ -401,6 +401,22 @@ footer {
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.featureGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.mini{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px}.mini b{display:block;font-size:20px;margin-top:7px}.inputGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.inputGrid input,.inputGrid select,.wideInput{width:100%;padding:12px;background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:9px}.primaryBtn,.secondaryBtn,.dangerBtn{padding:11px 15px;border-radius:9px;cursor:pointer;margin-top:14px}.primaryBtn{background:var(--text);color:var(--bg);border:0}.secondaryBtn{background:var(--card2);color:var(--text);border:1px solid var(--border)}.dangerBtn{background:transparent;color:#ff7d7d;border:1px solid #633}.progressTrack{height:13px;background:var(--card2);border:1px solid var(--border);border-radius:99px;overflow:hidden;margin-top:14px}.progressBar{height:100%;width:0;background:var(--green);transition:.3s}.sectionTitle{display:flex;justify-content:space-between;gap:10px;align-items:center}.compareControls{display:flex;gap:8px;flex-wrap:wrap}.smallText{font-size:11px;color:var(--muted)}.watchItem{display:grid;grid-template-columns:1.1fr .7fr .7fr 1fr auto;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--border)}.watchItem a{color:var(--text)}.buildRow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)}.marketEntry{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
 @media(max-width:850px){.grid2,.featureGrid{grid-template-columns:1fr}.watchItem,.buildRow,.marketEntry{grid-template-columns:1fr 1fr}.inputGrid{grid-template-columns:1fr}}
 
+
+.yearNav{max-width:1150px;margin:0 auto;padding:10px 20px 18px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+.yearPickerWrap{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 14px}
+.yearPickerLabel{font-size:10px;color:var(--muted);letter-spacing:1.5px}
+.yearSelect{background:var(--card2);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:9px 32px 9px 12px;font-weight:800}
+.yearTabs{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.yearTab{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 13px;cursor:pointer}
+.yearTab.active{border-color:var(--green);box-shadow:0 0 0 1px var(--green) inset}
+.modelHero{max-width:1110px;margin:0 auto 18px;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:18px;padding:22px 25px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.modelHero h2{font-size:25px;margin-top:5px}.modelHero p{color:var(--muted);font-size:12px;margin-top:6px}
+.buildPlan{margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.planItem{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border);background:var(--card2)}
+.planItem:last-child{border-bottom:0}.planItem small{display:block;color:var(--muted);margin-top:4px;line-height:1.35}.planPrice{font-weight:800;white-space:nowrap}
+.warningBox{margin-top:12px;padding:12px;border:1px solid #735d25;border-radius:10px;background:rgba(190,145,40,.08);font-size:11px;color:var(--muted);line-height:1.45}
+@media(max-width:600px){.modelHero{margin-left:20px;margin-right:20px}.yearTabs{display:none}.planItem{grid-template-columns:1fr}}
+
 </style>
 </head>
 
@@ -454,41 +470,31 @@ Market value & depreciation tracker
 </section>
 
 
-<div class="selector">
 
-<button
-id="btn2020"
-class="carButton active"
-onclick="selectCar('2020')">
-
-<strong>
-FORD EXPLORER ST
-</strong>
-
-<span>
-2020 MODEL YEAR
-</span>
-
-</button>
-
-
-<button
-id="btn2025"
-class="carButton"
-onclick="selectCar('2025')">
-
-<strong>
-FORD EXPLORER ST
-</strong>
-
-<span>
-2025 FACELIFT
-</span>
-
-</button>
-
+<div class="yearNav">
+  <div class="yearPickerWrap">
+    <span class="yearPickerLabel">MODEL YEAR</span>
+    <select id="yearSelect" class="yearSelect" onchange="selectCar(this.value)">
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+    </select>
+  </div>
+  <div class="yearTabs" id="yearTabs"></div>
 </div>
 
+<section class="modelHero">
+  <div>
+    <div class="smallText">SELECTED EXPLORER ST</div>
+    <h2 id="modelPageTitle">2020 FORD EXPLORER ST</h2>
+    <p id="modelPageText">Market, ownership and build planning dashboard.</p>
+  </div>
+  <span class="badge" id="modelGenerationBadge">6TH GEN</span>
+</section>
 
 <main>
 
@@ -575,7 +581,7 @@ USD and UAH values for the selected model
   <div class="card">
     <div class="sectionTitle"><div><h2>My Goal</h2><div class="description">Your Explorer ST purchase target</div></div><span class="badge" id="goalPercent">0%</span></div>
     <div class="inputGrid">
-      <div><label>Target model</label><select id="goalModel"><option>2020</option><option>2025</option></select></div>
+      <div><label>Target model</label><select id="goalModel"><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
       <div><label>Target price, USD</label><input id="goalPrice" type="number" value="20000"></div>
       <div><label>Saved, USD</label><input id="goalSaved" type="number" value="0"></div>
       <div><label>Target year</label><input id="goalYear" type="number" value="2030"></div>
@@ -603,7 +609,7 @@ USD and UAH values for the selected model
 </div>
 
 <div class="card">
-  <div class="sectionTitle"><div><h2>Market Dashboard</h2><div class="description">Quick statistics for the selected model</div></div><div class="compareControls"><button class="secondaryBtn" onclick="setDistanceUnit()" id="distanceBtn">Miles → KM</button><button class="secondaryBtn" onclick="toggleCompare()" id="compareBtn">Compare 2020 / 2025</button></div></div>
+  <div class="sectionTitle"><div><h2>Market Dashboard</h2><div class="description">Quick statistics for the selected model</div></div><div class="compareControls"><button class="secondaryBtn" onclick="setDistanceUnit()" id="distanceBtn">Miles → KM</button><button class="secondaryBtn" onclick="toggleCompare()" id="compareBtn">Compare all years</button></div></div>
   <div class="featureGrid">
     <div class="mini"><span class="statLabel">Depreciation from MSRP</span><b id="depStat">—</b></div>
     <div class="mini"><span class="statLabel">Lowest observed</span><b id="lowStat">—</b></div>
@@ -614,7 +620,7 @@ USD and UAH values for the selected model
 <div class="card">
   <h2>Add Market Price</h2><div class="description">Add your own observations. They are stored in this browser.</div>
   <div class="inputGrid">
-    <div><label>Model year</label><select id="entryModel"><option>2020</option><option>2025</option></select></div>
+    <div><label>Model year</label><select id="entryModel"><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select></div>
     <div><label>Date</label><input id="entryDate" type="date"></div>
     <div><label>Price, USD</label><input id="entryPrice" type="number" placeholder="23900"></div>
     <div><label>Mileage</label><input id="entryMileage" type="number" placeholder="65000"></div>
@@ -636,15 +642,17 @@ USD and UAH values for the selected model
   </div>
 
   <div class="card">
-    <h2>Stock / Tuned Build</h2><div class="description">Plan your future Explorer ST setup</div>
-    <div class="featureGrid" style="grid-template-columns:1fr 1fr">
-      <div class="mini"><span class="statLabel">Stock target</span><b>~400 hp</b></div>
-      <div class="mini"><span class="statLabel">Build target</span><b id="hpTargetText">500 hp</b></div>
+    <h2>Power Build Planner</h2><div class="description">Enter your horsepower goal and the planner will adapt the suggested build and budget.</div>
+    <div class="featureGrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="mini"><span class="statLabel">Stock power</span><b id="stockHpText">400 hp</b></div>
+      <div class="mini"><span class="statLabel">Target</span><b id="hpTargetText">500 hp</b></div>
+      <div class="mini"><span class="statLabel">Estimated parts</span><b id="buildCostText">$0</b></div>
     </div>
-    <label>Horsepower target</label><input class="wideInput" id="hpTarget" type="number" value="500">
-    <label>Modification budget, USD</label><input class="wideInput" id="modBudget" type="number" value="3000">
-    <label>Build notes</label><input class="wideInput" id="buildNotes" placeholder="Intercooler, tune, exhaust...">
-    <button class="primaryBtn" onclick="saveBuild()">Save build</button>
+    <label>Horsepower target</label><input class="wideInput" id="hpTarget" type="number" min="400" max="650" step="10" value="500" oninput="planBuild()">
+    <label>Your modification budget, USD</label><input class="wideInput" id="modBudget" type="number" value="3000" oninput="planBuild()">
+    <div id="buildPlan" class="buildPlan"></div>
+    <label>Build notes</label><input class="wideInput" id="buildNotes" placeholder="Your notes..." oninput="saveBuild(false)">
+    <button class="primaryBtn" onclick="saveBuild(true)">Save build</button>
     <div id="buildSummary" class="smallText" style="margin-top:12px"></div>
   </div>
 </div>
@@ -710,43 +718,15 @@ Save
 ============================== */
 
 const market = {
-
-"2020": {
-
-msrp:56310,
-current:24430,
-future:16500,
-
-years:[
-2020,2021,2022,2023,2024,
-2025,2026,2027,2028,2029,2030
-],
-
-prices:[
-56310,48000,42000,36000,32000,
-28000,24430,22000,20000,18200,16500
-]
-
-},
-
-"2025": {
-
-msrp:56770,
-current:43000,
-future:26000,
-
-years:[
-2025,2026,2027,2028,2029,2030
-],
-
-prices:[
-56770,43000,38000,
-33500,29500,26000
-]
-
-}
-
+"2020": {msrp:56310,current:24430,future:16500,stockHp:400,years:[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030],prices:[56310,48000,42000,36000,32000,28000,24430,22000,20000,18200,16500]},
+"2021": {msrp:54805,current:26750,future:18000,stockHp:400,years:[2021,2022,2023,2024,2025,2026,2027,2028,2029,2030],prices:[54805,47500,41000,36000,31000,26750,24200,22000,19900,18000]},
+"2022": {msrp:49905,current:29250,future:19800,stockHp:400,years:[2022,2023,2024,2025,2026,2027,2028,2029,2030],prices:[49905,44000,39000,34000,29250,26600,24100,21800,19800]},
+"2023": {msrp:50405,current:32500,future:22000,stockHp:400,years:[2023,2024,2025,2026,2027,2028,2029,2030],prices:[50405,44500,38000,32500,29500,26800,24300,22000]},
+"2024": {msrp:51370,current:36500,future:24000,stockHp:400,years:[2024,2025,2026,2027,2028,2029,2030],prices:[51370,43000,36500,33000,29800,26700,24000]},
+"2025": {msrp:56770,current:43000,future:26000,stockHp:400,years:[2025,2026,2027,2028,2029,2030],prices:[56770,43000,38000,33500,29500,26000]},
+"2026": {msrp:57500,current:50000,future:28500,stockHp:400,years:[2026,2027,2028,2029,2030],prices:[50000,43000,37000,32000,28500]}
 };
+/* Market values are editable planning estimates, not live listings. */
 
 
 let selected = "2020";
@@ -882,23 +862,15 @@ Math.round(value/1000) +
 ============================== */
 
 function selectCar(year){
-
-selected = year;
-
-document
-.getElementById("btn2020")
-.classList.remove("active");
-
-document
-.getElementById("btn2025")
-.classList.remove("active");
-
-document
-.getElementById("btn"+year)
-.classList.add("active");
-
+selected=String(year);
+document.getElementById("yearSelect").value=selected;
+document.querySelectorAll(".yearTab").forEach(b=>b.classList.toggle("active",b.dataset.year===selected));
+document.getElementById("modelPageTitle").textContent=selected+" FORD EXPLORER ST";
+document.getElementById("modelPageText").textContent=(+selected>=2025?"Facelift model":"Sixth-generation model")+" • market, ownership and build planning dashboard.";
+document.getElementById("modelGenerationBadge").textContent=(+selected>=2025?"FACELIFT":"6TH GEN");
+if(compareMode) compareMode=false;
 render();
-
+renderBuild();
 }
 
 
@@ -941,10 +913,10 @@ selected +
 " — Market Value";
 
 
-priceChart.data.labels =
+if(!compareMode) priceChart.data.labels =
 car.years;
 
-priceChart.data.datasets[0].data =
+if(!compareMode) priceChart.data.datasets[0].data =
 car.prices;
 
 priceChart.update();
@@ -1164,18 +1136,10 @@ light
 : "#ffffff";
 
 
-priceChart
-.data
-.datasets[0]
-.borderColor =
-color;
-
-
-priceChart
-.data
-.datasets[0]
-.pointBackgroundColor =
-color;
+if(!compareMode){
+priceChart.data.datasets[0].borderColor=color;
+priceChart.data.datasets[0].pointBackgroundColor=color;
+}
 
 
 priceChart.update();
@@ -1363,7 +1327,26 @@ function renderGoal(){const g=readJSON('stGoal',{model:'2020',price:20000,saved:
 function calculatePurchase(){const total=(+calcCar.value||0)+(+calcShip.value||0)+(+calcTax.value||0)+(+calcRepair.value||0);calcUSD.textContent=money(total);calcUAH.textContent='₴'+Math.round(total*usdUah).toLocaleString()}
 function renderDashboard(){const c=market[selected], dep=(c.current-c.msrp)/c.msrp*100;depStat.textContent=dep.toFixed(1)+'%';lowStat.textContent=money(Math.min(...c.prices));highStat.textContent=money(Math.max(...c.prices))}
 function setDistanceUnit(){distanceUnit=distanceUnit==='mi'?'km':'mi';localStorage.setItem('distanceUnit',distanceUnit);distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles';renderMarketEntries();renderWatch()}
-function toggleCompare(){compareMode=!compareMode;compareBtn.textContent=compareMode?'Show selected model':'Compare 2020 / 2025';if(compareMode){priceChart.data.labels=[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];priceChart.data.datasets=[{label:'2020',data:market['2020'].prices,borderColor:'#ffffff',pointBackgroundColor:'#ffffff',borderWidth:3,tension:.35,fill:false},{label:'2025',data:[null,null,null,null,null,...market['2025'].prices],borderColor:'#65d68b',pointBackgroundColor:'#65d68b',borderWidth:3,tension:.35,fill:false}];priceChart.options.plugins.legend.display=true}else{priceChart.options.plugins.legend.display=false;priceChart.data.datasets=[{data:market[selected].prices,borderColor:document.body.classList.contains('light')?'#111111':'#ffffff',backgroundColor:'rgba(255,255,255,.05)',borderWidth:3,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:document.body.classList.contains('light')?'#111111':'#ffffff',tension:.35,fill:true}];priceChart.data.labels=market[selected].years}priceChart.update()}
+function toggleCompare(){
+compareMode=!compareMode;
+compareBtn.textContent=compareMode?'Show selected model':'Compare all years';
+if(compareMode){
+  const labels=[2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030];
+  const palette=['#ffffff','#65d68b','#5aa9ff','#ffcc66','#d98cff','#ff8c69','#77e0d2'];
+  priceChart.data.labels=labels;
+  priceChart.data.datasets=Object.keys(market).map((yr,i)=>{
+    const c=market[yr], map={}; c.years.forEach((y,j)=>map[y]=c.prices[j]);
+    return {label:yr,data:labels.map(y=>map[y]??null),borderColor:palette[i],pointBackgroundColor:palette[i],borderWidth:2,tension:.3,fill:false,spanGaps:false};
+  });
+  priceChart.options.plugins.legend.display=true;
+}else{
+  priceChart.options.plugins.legend.display=false;
+  const color=document.body.classList.contains('light')?'#111111':'#ffffff';
+  priceChart.data.datasets=[{data:market[selected].prices,borderColor:color,backgroundColor:'rgba(255,255,255,.05)',borderWidth:3,pointRadius:5,pointHoverRadius:8,pointBackgroundColor:color,tension:.35,fill:true}];
+  priceChart.data.labels=market[selected].years;
+}
+priceChart.update();
+}
 function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert('Add a date and price.');const a=readJSON('marketEntries');a.unshift({id:Date.now(),model:entryModel.value,date:entryDate.value,price:+entryPrice.value,mileage:+entryMileage.value||0});writeJSON('marketEntries',a);entryPrice.value='';entryMileage.value='';renderMarketEntries()}
 function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">No custom observations yet.</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
 function deleteMarketEntry(id){writeJSON('marketEntries',readJSON('marketEntries').filter(x=>x.id!==id));renderMarketEntries()}
@@ -1371,9 +1354,47 @@ function addWatch(){if(!watchTitle.value)return alert('Add a title or VIN.');con
 function renderWatch(){const a=readJSON('watchList'),el=document.getElementById('watchList');el.innerHTML=a.length?'':'<div class="smallText" style="margin-top:14px">Watchlist is empty.</div>';a.forEach(x=>{let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);const d=document.createElement('div');d.className='watchItem';const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${safeLink?`<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">Open listing</a>`:'<span class="smallText">No link</span>'}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;el.appendChild(d)})}
 function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch()}
-function saveBuild(){const b={hp:+hpTarget.value||500,budget:+modBudget.value||0,notes:buildNotes.value};writeJSON('stBuild',b);renderBuild()}
-function renderBuild(){const b=readJSON('stBuild',{hp:500,budget:3000,notes:''});hpTarget.value=b.hp;modBudget.value=b.budget;buildNotes.value=b.notes;hpTargetText.textContent=b.hp+' hp';buildSummary.textContent=`Target: ${b.hp} hp • Budget: ${money(b.budget)}${b.notes?' • '+b.notes:''}`}
-function initV2(){const today=new Date().toISOString().slice(0,10);entryDate.value=today;renderGoal();calculatePurchase();renderDashboard();renderMarketEntries();renderWatch();renderBuild();distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles'}
+function getBuildPlan(hp){
+  const stock=market[selected].stockHp||400;
+  const target=Math.max(stock,Math.min(650,Number(hp)||stock));
+  const items=[];
+  const add=(name,price,note)=>items.push({name,price,note});
+  if(target<=stock){ add("Stock setup",0,"No power modifications required."); }
+  else{
+    add("ECU calibration / dyno tune",700,"Professional calibration matched to the vehicle and fuel.");
+    if(target>430) add("Upgraded intercooler",650,"Helps control intake temperatures and consistency.");
+    if(target>455) add("Charge pipes / intake path",450,"Improves airflow and replaces restrictive or heat-sensitive parts.");
+    if(target>480) add("Transmission calibration",350,"Keeps shift behavior matched to the added torque.");
+    if(target>500) add("Fuel-system / fuel-quality supporting upgrades",900,"Exact hardware depends on tuner, fuel and target.");
+    if(target>525) add("Higher-flow turbo hardware",2200,"At this level the build becomes substantially more involved.");
+    if(target>575) add("Advanced supporting hardware & custom dyno work",1800,"Cooling, fueling and drivetrain checks become especially important.");
+  }
+  return {target,items,total:items.reduce((s,x)=>s+x.price,0)};
+}
+function planBuild(){
+  const p=getBuildPlan(hpTarget.value),budget=+modBudget.value||0;
+  hpTargetText.textContent=p.target+' hp';
+  stockHpText.textContent=(market[selected].stockHp||400)+' hp';
+  buildCostText.textContent=money(p.total);
+  buildPlan.innerHTML=p.items.map(x=>`<div class="planItem"><div><b>${x.name}</b><small>${x.note}</small></div><div class="planPrice">${money(x.price)}</div></div>`).join('');
+  const diff=budget-p.total;
+  buildSummary.textContent=(budget?`Budget ${money(budget)} • `:'')+(diff>=0?`${money(diff)} left after estimated parts`:`about ${money(Math.abs(diff))} over your entered budget`);
+  if(p.target>525) buildPlan.insertAdjacentHTML('beforeend','<div class="warningBox">Higher-power setups need a reputable professional tuner and supporting checks. This planner is a budgeting guide, not installation instructions; exact parts and safe limits depend on the specific vehicle, fuel and condition.</div>');
+}
+function saveBuild(showMessage=true){
+  const b={model:selected,hp:+hpTarget.value||500,budget:+modBudget.value||0,notes:buildNotes.value};
+  writeJSON('stBuild_'+selected,b); planBuild();
+  if(showMessage) buildSummary.textContent+=' • Saved for '+selected;
+}
+function renderBuild(){
+  const b=readJSON('stBuild_'+selected,{model:selected,hp:500,budget:3000,notes:''});
+  hpTarget.value=b.hp;modBudget.value=b.budget;buildNotes.value=b.notes||'';planBuild();
+}
+function buildYearTabs(){
+  const el=document.getElementById('yearTabs'); el.innerHTML='';
+  Object.keys(market).forEach(y=>{const b=document.createElement('button');b.className='yearTab'+(y===selected?' active':'');b.dataset.year=y;b.textContent=y;b.onclick=()=>selectCar(y);el.appendChild(b)});
+}
+function initV2(){buildYearTabs();yearSelect.value=selected;selectCar(selected);const today=new Date().toISOString().slice(0,10);entryDate.value=today;renderGoal();calculatePurchase();renderDashboard();renderMarketEntries();renderWatch();renderBuild();distanceBtn.textContent=distanceUnit==='mi'?'Miles → KM':'KM → Miles'}
 
 
 /* ==============================
