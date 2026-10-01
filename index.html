@@ -426,6 +426,7 @@ footer {
 .photoYear{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.72);color:white;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:800}
 @media(max-width:760px){.modelHero{flex-direction:column;align-items:stretch}.carPhotoWrap{width:100%;height:210px}.langBtn{padding:0 10px}}
 
+.carPhotoWrap[data-photo-error]::after{content:attr(data-photo-error);position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:12px}
 </style>
 </head>
 
@@ -542,9 +543,7 @@ Loading...
 Market Value
 </h2>
 
-<div class="description">
-Estimated Explorer ST depreciation over time
-</div>
+<div class="description" id="chartDesc">Estimated Explorer ST depreciation over time</div>
 
 <div class="chart">
 <canvas id="priceChart"></canvas>
@@ -565,11 +564,11 @@ Estimated Explorer ST depreciation over time
 
 <thead>
 <tr>
-<th>Year</th>
-<th>Price USD</th>
-<th>Price UAH</th>
-<th>Change</th>
-<th>Status</th>
+<th id="thYear">Year</th>
+<th id="thUsd">Price USD</th>
+<th id="thUah">Price UAH</th>
+<th id="thChange">Change</th>
+<th id="thStatus">Status</th>
 </tr>
 </thead>
 
@@ -595,7 +594,7 @@ Estimated Explorer ST depreciation over time
     </div>
     <div class="progressTrack"><div class="progressBar" id="goalBar"></div></div>
     <div class="smallText" id="goalText" style="margin-top:9px"></div>
-    <button class="primaryBtn" onclick="saveGoal()">Save goal</button>
+    <button class="primaryBtn" id="saveGoalBtn" onclick="saveGoal()">Save goal</button>
   </div>
 
   <div class="card">
@@ -610,7 +609,7 @@ Estimated Explorer ST depreciation over time
       <div class="mini"><span class="statLabel">TOTAL USD</span><b id="calcUSD">$0</b></div>
       <div class="mini"><span class="statLabel">TOTAL UAH</span><b id="calcUAH">₴0</b></div>
     </div>
-    <button class="primaryBtn" onclick="calculatePurchase()">Calculate</button>
+    <button class="primaryBtn" id="calculateBtn" onclick="calculatePurchase()">Calculate</button>
     <div class="smallText" style="margin-top:10px">Manual estimate only; actual taxes, shipping and repairs can differ.</div>
   </div>
 </div>
@@ -632,7 +631,7 @@ Estimated Explorer ST depreciation over time
     <div><label>Price, USD</label><input id="entryPrice" type="number" placeholder="23900"></div>
     <div><label>Mileage</label><input id="entryMileage" type="number" placeholder="65000"></div>
   </div>
-  <button class="primaryBtn" onclick="addMarketEntry()">+ Add market price</button>
+  <button class="primaryBtn" id="addMarketBtn" onclick="addMarketEntry()">+ Add market price</button>
   <div id="marketEntries" style="margin-top:12px"></div>
 </div>
 
@@ -645,7 +644,7 @@ Estimated Explorer ST depreciation over time
       <div><label>Mileage</label><input id="watchMileage" type="number"></div>
       <div><label>Listing link</label><input id="watchLink" placeholder="https://..."></div>
     </div>
-    <button class="primaryBtn" onclick="addWatch()">+ Add listing</button><div id="watchList"></div>
+    <button class="primaryBtn" id="addWatchBtn" onclick="addWatch()">+ Add listing</button><div id="watchList"></div>
   </div>
 
   <div class="card">
@@ -659,7 +658,7 @@ Estimated Explorer ST depreciation over time
     <label>Your modification budget, USD</label><input class="wideInput" id="modBudget" type="number" value="3000" oninput="planBuild()">
     <div id="buildPlan" class="buildPlan"></div>
     <label>Build notes</label><input class="wideInput" id="buildNotes" placeholder="Your notes..." oninput="saveBuild(false)">
-    <button class="primaryBtn" onclick="saveBuild(true)">Save build</button>
+    <button class="primaryBtn" id="saveBuildBtn" onclick="saveBuild(true)">Save build</button>
     <div id="buildSummary" class="smallText" style="margin-top:12px"></div>
   </div>
 </div>
@@ -703,13 +702,9 @@ onchange="previewPhoto(event)">
 
 <div class="modalButtons">
 
-<button class="cancel" onclick="closeProfile()">
-Cancel
-</button>
+<button class="cancel" id="cancelProfileBtn" onclick="closeProfile()">Cancel</button>
 
-<button class="save" onclick="saveProfile()">
-Save
-</button>
+<button class="save" id="saveProfileBtn" onclick="saveProfile()">Save</button>
 
 </div>
 
@@ -742,17 +737,17 @@ let usdUah = 41.5;
 
 let newPhoto = null;
 
-let currentLang=localStorage.getItem("siteLang")||"en";
+let currentLang=localStorage.getItem("siteLang")||"ru";
 let soundEnabled=localStorage.getItem("introSound")!=="off";
 
 const carPhotos={
- "2020":"https://rpmweb.ca/medias/0029b2eceac2da969f2e111d0dfc1fed.jpg",
- "2021":"https://rpmweb.ca/medias/0029b2eceac2da969f2e111d0dfc1fed.jpg",
- "2022":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
- "2023":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
- "2024":"https://assets-clean.local-car-finder.com/images/14888/14888_st1280_089.png",
- "2025":"https://xovvdk.infiniteuploads.cloud/2025/06/2025-ford-explorer-st_09.jpg",
- "2026":"https://www.assets.ford.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b7ae624-1e2e-42d5-92e4-7515af497b3a/as/26_FRD_EPR_67550_ST_agbl.webp?crop-names=1_3x4&max-quality=75&width=1440"
+ "2020":"https://commons.wikimedia.org/wiki/Special:FilePath/2020%20Ford%20Explorer%20ST,%20front%208.24.19.jpg?width=1200",
+ "2021":"https://commons.wikimedia.org/wiki/Special:FilePath/2020%20Ford%20Explorer%20ST,%20front%208.24.19.jpg?width=1200",
+ "2022":"https://commons.wikimedia.org/wiki/Special:FilePath/2022%20Ford%20Explorer%20ST,%20rear%206.8.22.jpg?width=1200",
+ "2023":"https://commons.wikimedia.org/wiki/Special:FilePath/2023%20Ford%20Explorer%20ST%20in%20Star%20White%20Metallic%20Tri-Coat,%20front%20left,%202024-08-19.jpg?width=1200",
+ "2024":"https://commons.wikimedia.org/wiki/Special:FilePath/Ford%20Explorer%20ST%20(2024)%20(53620395832).jpg?width=1200",
+ "2025":"https://hips.hearstapps.com/hmg-prod/images/2025-ford-explorer-st-2-6717e145372ac.jpg?crop=0.889xw:1xh;center,top&resize=1200:*",
+ "2026":"https://www.autoblog.com/.image/w_1200,q_auto:good,c_fill,ar_4:3/NzowMDAwMDAwMDAwODgzMTkx/2025-ford-explorer-st_10.jpg"
 };
 
 const I18N={
@@ -780,8 +775,9 @@ function t(k){return (I18N[currentLang]&&I18N[currentLang][k])||I18N.en[k]||k}
 function applyLanguage(){
  document.documentElement.lang=currentLang;
  document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(t(k))el.textContent=t(k)});
- langButton.textContent=currentLang==="en"?"RU":"EN";
+ langButton.textContent=currentLang==="ru"?"RU":"EN";
  localStorage.setItem("siteLang",currentLang);
+ translateFullUI();
  render();
  renderGoal(); renderMarketEntries(); renderWatch(); renderBuild();
  distanceBtn.textContent=distanceUnit==="mi"?(currentLang==="ru"?"Мили → КМ":"Miles → KM"):(currentLang==="ru"?"КМ → Мили":"KM → Miles");
@@ -789,10 +785,37 @@ function applyLanguage(){
 }
 function toggleLanguage(){currentLang=currentLang==="en"?"ru":"en";applyLanguage()}
 
+function setTxt(sel,en,ru){const e=document.querySelector(sel);if(e)e.textContent=currentLang==="ru"?ru:en}
+function setPh(sel,en,ru){const e=document.querySelector(sel);if(e)e.placeholder=currentLang==="ru"?ru:en}
+function translateFullUI(){
+ setTxt("#chartDesc","Estimated Explorer ST depreciation over time","Ориентировочное изменение стоимости Explorer ST со временем");
+ setTxt("#thYear","Year","Год"); setTxt("#thUsd","Price USD","Цена USD"); setTxt("#thUah","Price UAH","Цена UAH");
+ setTxt("#thChange","Change","Изменение"); setTxt("#thStatus","Status","Статус");
+ setTxt("#saveGoalBtn","Save goal","Сохранить цель"); setTxt("#calculateBtn","Calculate","Рассчитать");
+ setTxt("#addMarketBtn","+ Add market price","+ Добавить цену"); setTxt("#addWatchBtn","+ Add listing","+ Добавить объявление");
+ setTxt("#saveBuildBtn","Save build","Сохранить билд"); setTxt("#cancelProfileBtn","Cancel","Отмена"); setTxt("#saveProfileBtn","Save","Сохранить");
+ const labels=[...document.querySelectorAll("label")];
+ const map={
+ "Target model":"Целевая модель","Target price, USD":"Целевая цена, USD","Saved, USD":"Накоплено, USD","Target year":"Год покупки",
+ "Car price, USD":"Цена авто, USD","Shipping, USD":"Доставка, USD","Customs / taxes, USD":"Таможня / налоги, USD","Repair / service, USD":"Ремонт / обслуживание, USD",
+ "Model year":"Год модели","Date":"Дата","Price, USD":"Цена, USD","Mileage":"Пробег","Title / VIN":"Название / VIN","Listing link":"Ссылка на объявление",
+ "Horsepower target":"Желаемая мощность","Your modification budget, USD":"Бюджет на доработки, USD","Build notes":"Заметки по билду",
+ "Name":"Имя","Profile photo":"Фото профиля"
+ };
+ labels.forEach(e=>{if(!e.dataset.en)e.dataset.en=e.textContent.trim();e.textContent=currentLang==="ru"?(map[e.dataset.en]||e.dataset.en):e.dataset.en});
+ setPh("#watchTitle","2020 ST / VIN","2020 ST / VIN"); setPh("#buildNotes","Your notes...","Твои заметки...");
+ const statMap={"TOTAL USD":"ИТОГО USD","TOTAL UAH":"ИТОГО UAH","Depreciation from MSRP":"Падение от MSRP","Lowest observed":"Минимальная цена","Highest observed":"Максимальная цена","Stock power":"Мощность в стоке","Target":"Цель","Estimated parts":"Оценка деталей"};
+ document.querySelectorAll(".statLabel").forEach(e=>{if(!e.dataset.en)e.dataset.en=e.textContent.trim();e.textContent=currentLang==="ru"?(statMap[e.dataset.en]||e.textContent):e.dataset.en});
+ const manual=document.querySelector(".smallText[style*='margin-top:10px']");if(manual)manual.textContent=currentLang==="ru"?"Это ориентировочный расчёт; реальные налоги, доставка и ремонт могут отличаться.":"Manual estimate only; actual taxes, shipping and repairs can differ.";
+ document.querySelector("footer").textContent=currentLang==="ru"?"Explorer ST Market Tracker • Цены являются ориентировочными и зависят от пробега, состояния и истории автомобиля.":"Explorer ST Market Tracker • Prices are estimates and may differ depending on mileage, condition and vehicle history.";
+}
+
+
 function updateCarPhoto(){
  const img=document.getElementById("carPhoto"); if(!img)return;
  img.style.opacity=".25"; img.src=carPhotos[selected]||carPhotos["2020"]; img.alt=selected+" Ford Explorer ST";
- img.onload=()=>img.style.opacity="1"; img.onerror=()=>{img.style.opacity=".25";img.alt="Photo unavailable"};
+ img.onload=()=>{img.style.opacity="1";};
+ img.onerror=()=>{img.removeAttribute("src");img.style.opacity="1";img.alt="";img.parentElement.style.background="linear-gradient(135deg,var(--card2),var(--card))";img.parentElement.setAttribute("data-photo-error",currentLang==="ru"?"Фото временно недоступно":"Photo temporarily unavailable");};
  document.getElementById("photoYear").textContent=selected;
 }
 
@@ -1436,7 +1459,20 @@ function addMarketEntry(){if(!entryDate.value||!entryPrice.value)return alert(cu
 function renderMarketEntries(){const a=readJSON('marketEntries'),el=document.getElementById('marketEntries');el.innerHTML=a.length?'':'<div class="smallText">'+(currentLang==='ru'?'Пока нет своих наблюдений.':'No custom observations yet.')+'</div>';a.slice(0,8).forEach(x=>{const d=document.createElement('div');d.className='marketEntry';let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);d.innerHTML=`<b>${x.model} ST</b><span>${x.date}</span><span>${money(x.price)} • ${m.toLocaleString()} ${distanceUnit}</span><button class="dangerBtn" onclick="deleteMarketEntry(${x.id})">Delete</button>`;el.appendChild(d)})}
 function deleteMarketEntry(id){writeJSON('marketEntries',readJSON('marketEntries').filter(x=>x.id!==id));renderMarketEntries()}
 function addWatch(){if(!watchTitle.value)return alert(currentLang==='ru'?'Добавь название или VIN.':'Add a title or VIN.');const a=readJSON('watchList');a.unshift({id:Date.now(),title:watchTitle.value,price:+watchPrice.value||0,mileage:+watchMileage.value||0,link:watchLink.value});writeJSON('watchList',a);watchTitle.value=watchPrice.value=watchMileage.value=watchLink.value='';renderWatch()}
-function renderWatch(){const a=readJSON('watchList'),el=document.getElementById('watchList');el.innerHTML=a.length?'':'<div class="smallText" style="margin-top:14px">'+(currentLang==='ru'?'Список пока пуст.':'Watchlist is empty.')+'</div>';a.forEach(x=>{let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);const d=document.createElement('div');d.className='watchItem';const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${safeLink?`<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">${currentLang==='ru'?'Открыть':'Open listing'}</a>`:'<span class="smallText">${currentLang==='ru'?'Нет ссылки':'No link'}</span>'}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;el.appendChild(d)})}
+function renderWatch(){
+ const a=readJSON('watchList'),el=document.getElementById('watchList');
+ el.innerHTML=a.length?'':`<div class="smallText" style="margin-top:14px">${currentLang==='ru'?'Список пока пуст.':'Watchlist is empty.'}</div>`;
+ a.forEach(x=>{
+   let m=x.mileage;if(distanceUnit==='km')m=Math.round(m*1.60934);
+   const d=document.createElement('div');d.className='watchItem';
+   const safeLink=x.link&&/^https?:\/\//i.test(x.link)?x.link:'';
+   const linkHtml=safeLink
+     ? `<a href="${safeLink.replace(/"/g,'%22')}" target="_blank" rel="noopener">${currentLang==='ru'?'Открыть':'Open listing'}</a>`
+     : `<span class="smallText">${currentLang==='ru'?'Нет ссылки':'No link'}</span>`;
+   d.innerHTML=`<b>${escapeHTML(x.title)}</b><span>${money(x.price)}</span><span>${m.toLocaleString()} ${distanceUnit}</span>${linkHtml}<button class="dangerBtn" onclick="deleteWatch(${x.id})">×</button>`;
+   el.appendChild(d);
+ });
+}
 function escapeHTML(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 function deleteWatch(id){writeJSON('watchList',readJSON('watchList').filter(x=>x.id!==id));renderWatch()}
 
