@@ -519,6 +519,18 @@ footer{border-top:1px solid var(--border)}
 @media(max-width:1050px){main{grid-template-columns:1fr}main>.stats,main>.marketSnapshot,main>.card,main>.grid2{grid-column:1/-1}main>.grid2:has(#watchList){grid-template-columns:1fr 1fr}}
 @media(max-width:700px){header{padding-inline:16px}.hero{padding:38px 20px 18px}.yearNav{padding-inline:20px}.modelHero{margin-inline:20px;padding:18px}main{padding:0 16px 50px;gap:16px}main>.grid2:has(#watchList){grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:16px}.snapshotGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:18px}.chart{height:300px}}
 
+
+/* REDLINE NAVIGATION V3 */
+.redlineNav{position:sticky;top:0;z-index:60;display:flex;gap:9px;align-items:center;flex-wrap:wrap;padding:13px clamp(20px,3vw,70px);background:#08090deF;border-bottom:1px solid #49202b;backdrop-filter:blur(16px)}
+.redlineNav button{border:1px solid #39313b;background:#14141b;color:#eee;border-radius:10px;padding:12px 19px;cursor:pointer;font-weight:800}.redlineNav button.active,.redlineNav button:hover{background:#d3092d;border-color:#ed2348;color:white}.redlineNav .navLabel{margin-right:auto;font-weight:1000;letter-spacing:2px;color:#fff}.redlineNav .navLabel em{color:#f21b41;font-style:normal}
+body{overflow-x:hidden}.hero{padding-top:25px;padding-bottom:14px}.yearNav{padding-top:6px;padding-bottom:12px}.modelHero{margin-bottom:14px;min-height:0;padding:16px 24px}.carPhotoWrap{height:200px}main{display:block!important;padding-bottom:25px}main>.card,main>.grid2,main>.stats,main>.marketSnapshot{display:none!important;margin:0!important}main>.stats{gap:12px}.view-pane{display:none!important}.view-pane.active{display:block!important}.view-pane.active.grid2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.view-pane.active.stats{display:grid!important}.view-pane.active.marketSnapshot{display:block!important}.view-pane.active.card{display:block!important}.view-pane.active.grid2:has(#watchList){display:grid!important}main>.card{margin-bottom:14px!important}main>.grid2{margin-bottom:14px!important}main>.stats{margin-bottom:14px!important}main>.marketSnapshot{margin-bottom:14px!important}
+#view-graph .chart{height:400px}#view-graph .graphPair{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:14px}#view-graph .graphPair>.card{margin:0!important}#view-tuning .card{margin:0 0 14px!important}.tuningExtras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}.tuningExtra{background:#14161e;border:1px solid #35232d;border-radius:12px;padding:15px}.tuningExtra h3{font-size:14px;color:#ff3a59;margin-bottom:8px}.tuningExtra p{color:#aaa;font-size:12px;line-height:1.5}.tuningExtra label{font-size:12px;color:#ddd}.tuningExtra input[type=checkbox]{accent-color:#e50932;margin-right:7px}.tuningTotal{padding:18px;border:1px solid #78243a;border-radius:12px;background:linear-gradient(120deg,#250d17,#111218);font-weight:900;margin-top:16px}.galleryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.galleryTile{border:1px solid #42202b;border-radius:13px;background:#12141a;overflow:hidden;cursor:pointer;padding:0;color:white;text-align:left}.galleryTile img{display:block;width:100%;height:205px;object-fit:cover}.galleryTile span{display:block;padding:12px;font-size:12px}.galleryTile:hover{border-color:#ff2448}.redlineSectionTitle{font-size:23px;margin:5px 0 15px;font-weight:900}.navNote{font-size:11px;color:#a6a6b0;margin-bottom:12px}
+.advancedHub{display:none!important}#view-gallery,#view-tuning{width:100%}.modelHero{max-width:none}
+@media(max-width:900px){#view-graph .graphPair{grid-template-columns:1fr}.tuningExtras{grid-template-columns:repeat(2,1fr)}.galleryGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.redlineNav .navLabel{width:100%}.redlineNav button{padding:10px 12px;font-size:12px}.view-pane.active.grid2{grid-template-columns:1fr!important}.tuningExtras,.galleryGrid{grid-template-columns:1fr}.galleryTile img{height:220px}.modelHero{margin-inline:15px}.hero{padding-inline:18px}}
+
+/* REDLINE BUILD STUDIO */
+.tuneConfigurator{padding:26px!important;margin:0 0 16px!important}.tuneHeading{display:flex;justify-content:space-between;align-items:start;gap:12px}.tuneEyebrow,.tunePartCategory{font-size:10px;letter-spacing:2px;color:#ed2444;font-weight:800}.tuneChip{border:1px solid #d91b3d;color:#ff4b64;padding:8px 12px;border-radius:9px;font-size:11px;font-weight:900}.tunePreset{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin:24px 0}.tunePreset button,.tuneFilters button{background:#11141b;color:#e8e8ed;border:1px solid #34303b;border-radius:10px;padding:13px 8px;cursor:pointer;font-weight:800}.tunePreset button small{display:block;color:#8e929e;font-size:10px;font-weight:400;margin-top:5px}.tunePreset button.active,.tuneFilters button.active{border-color:#ff1744;background:#3a0b19;color:#fff}.tuneMeter{display:flex;justify-content:space-between;align-items:center;color:#9c9da8;font-size:12px}.tuneMeter strong{color:#fff;font-size:21px}#tuneRange{width:100%;accent-color:#e80c39;margin:13px 0 18px}.tuneWarning{border-left:3px solid #e51d42;background:#1d1219;padding:13px 16px;color:#c6c3cc;border-radius:6px;font-size:12px;line-height:1.5}.tuneCategoryHead{margin:27px 0 14px}.tuneCategoryHead h3{font-size:18px}.tuneCategoryHead p{font-size:12px;color:#93949d;margin-top:6px}.tuneFilters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.tuneFilters button{padding:10px 14px}.tuneParts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.tunePart{position:relative;display:block;overflow:hidden;border-radius:13px;background:#101219;border:1px solid #2a2932;cursor:pointer;margin:0!important;color:#fff}.tunePart.picked{border-color:#e51c42;box-shadow:inset 0 0 0 1px #e51c42}.tunePartImage{height:135px;position:relative;background:radial-gradient(circle at 50% 30%,#3a1723,#101117 75%);overflow:hidden}.tunePartImage img{width:100%;height:100%;object-fit:cover}.tuneFallback{height:100%;place-items:center;font-size:52px;color:#ee2347}.tunePartBody{padding:13px}.tunePartBody h4{font-size:14px;margin:7px 0}.tunePartBody p{font-size:11px;line-height:1.4;color:#a1a1aa;min-height:44px}.tunePartBottom{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:13px}.tunePartBottom strong{font-size:13px}.tuneSelect{font-size:10px;color:#ff4664}.tunePart input{position:absolute;right:10px;top:10px;width:18px;height:18px;accent-color:#e51c42}.tuneSummary{display:flex;gap:35px;flex-wrap:wrap;padding:18px 0 0;margin-top:18px;border-top:1px solid #2a2932}.tuneSummary div{display:flex;flex-direction:column;gap:7px}.tuneSummary span{font-size:11px;color:#a3a3af}.tuneSummary strong{font-size:23px;color:#fff}#view-tuning>.card{width:100%;max-width:none}#view-tuning .tuneConfigurator{margin-top:0!important}@media(max-width:1100px){.tuneParts{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:750px){.tuneParts{grid-template-columns:repeat(2,minmax(0,1fr))}.tunePreset{grid-template-columns:repeat(3,1fr)}}@media(max-width:450px){.tuneParts{grid-template-columns:1fr}.tuneHeading{flex-direction:column}.tuneConfigurator{padding:16px!important}}
 </style>
 </head>
 
@@ -768,7 +780,7 @@ Market Value
       <div class="mini"><span class="statLabel">Target</span><b id="hpTargetText">500 hp</b></div>
       <div class="mini"><span class="statLabel">Estimated parts</span><b id="buildCostText">$0</b></div>
     </div>
-    <label>Horsepower target</label><input class="wideInput" id="hpTarget" type="number" min="400" max="650" step="10" value="500" oninput="planBuild()">
+    <label>Horsepower target</label><input class="wideInput" id="hpTarget" type="number" min="400" max="1000" step="10" value="500" oninput="planBuild()">
     <label>Your modification budget, USD</label><input class="wideInput" id="modBudget" type="number" value="3000" oninput="planBuild()">
     <div id="buildPlan" class="buildPlan"></div>
     <label>Build notes</label><input class="wideInput" id="buildNotes" placeholder="Your notes..." oninput="saveBuild(false)">
@@ -1744,7 +1756,7 @@ function buildLabel(x){return currentLang==="ru"&&BUILD_RU[x.name]?{name:BUILD_R
 
 function getBuildPlan(hp){
   const stock=market[selected].stockHp||400;
-  const target=Math.max(stock,Math.min(650,Number(hp)||stock));
+  const target=Math.max(stock,Math.min(1000,Number(hp)||stock));
   const items=[];
   const add=(name,price,note)=>items.push({name,price,note});
   if(target<=stock){ add("Stock setup",0,"No power modifications required."); }
@@ -1767,7 +1779,7 @@ function planBuild(){
   buildPlan.innerHTML=p.items.map(x=>{const q=buildLabel(x);return `<div class="planItem"><div><b>${q.name}</b><small>${q.note}</small></div><div class="planPrice">${money(x.price)}</div></div>`}).join('');
   const diff=budget-p.total;
   buildSummary.textContent=currentLang==="ru"?((budget?`Бюджет ${money(budget)} • `:"")+(diff>=0?`останется примерно ${money(diff)}`:`примерно на ${money(Math.abs(diff))} выше бюджета`)):((budget?`Budget ${money(budget)} • `:"")+(diff>=0?`${money(diff)} left after estimated parts`:`about ${money(Math.abs(diff))} over your entered budget`));
-  if(p.target>525) buildPlan.insertAdjacentHTML("beforeend",`<div class="warningBox">${currentLang==="ru"?"Для мощных конфигураций нужен профессиональный тюнер и проверка автомобиля. Планировщик нужен для оценки бюджета; точный набор деталей и безопасные пределы зависят от конкретной машины, топлива и её состояния.":"Higher-power setups need a reputable professional tuner and supporting checks. This planner is a budgeting guide, not installation instructions; exact parts and safe limits depend on the specific vehicle, fuel and condition."}</div>`);
+  if(p.target>525) buildPlan.insertAdjacentHTML("beforeend",`<div class="warningBox">${currentLang==="ru"?"Для целей выше 650 л.с. список компонентов НЕ является достаточной спецификацией и бюджет может быть значительно выше. Нужны профессиональная инженерная оценка и проверка автомобиля. Планировщик нужен для оценки бюджета; точный набор деталей и безопасные пределы зависят от конкретной машины, топлива и её состояния.":"Higher-power setups need a reputable professional tuner and supporting checks. This planner is a budgeting guide, not installation instructions; exact parts and safe limits depend on the specific vehicle, fuel and condition."}</div>`);
 }
 function saveBuild(showMessage=true){
   const b={model:selected,hp:+hpTarget.value||500,budget:+modBudget.value||0,notes:buildNotes.value};
@@ -1910,6 +1922,66 @@ applyLanguage();
 armIntroSound();
 
 loadCurrency();
+
+/* REDLINE V3: actual section navigation, no dead vertical space */
+(function(){
+ const main=document.querySelector('main');
+ const nav=document.createElement('nav');nav.className='redlineNav';nav.innerHTML='<span class="navLabel">EXPLORER <em>ST</em> / REDLINE</span>'+[['graph','📈 График'],['market','💰 Рынок'],['tuning','⚙ Тюнинг'],['gallery','📸 Фото'],['tools','🧮 Покупка']].map(([id,name])=>`<button type="button" data-view="${id}">${name}</button>`).join('');
+ document.querySelector('header').insertAdjacentElement('afterend',nav);
+ const create=(id)=>{let e=document.createElement('section');e.id='view-'+id;e.className='view-pane';main.appendChild(e);return e};
+ const graph=create('graph'),marketView=create('market'),tuning=create('tuning'),gallery=create('gallery'),tools=create('tools');
+ const cardFor=(id)=>document.getElementById(id)?.closest('.card');
+ const move=(parent,el)=>{if(el)parent.appendChild(el)};
+ const graphPair=document.createElement('div');graphPair.className='graphPair';graph.appendChild(graphPair);
+ move(graphPair,cardFor('priceChart'));move(graphPair,cardFor('tableBody'));
+ move(marketView,document.querySelector('main > .stats'));move(marketView,document.querySelector('main > .marketSnapshot'));move(marketView,cardFor('depStat'));move(marketView,cardFor('marketEntries'));
+ const tuningCard=cardFor('hpTarget');move(tuning,tuningCard);
+ const configurator=document.createElement('div');configurator.className='card tuneConfigurator';
+ configurator.innerHTML=`<div class="tuneHeading"><div><div class="tuneEyebrow">REDLINE / BUILD STUDIO</div><h2>Конфигуратор тюнинга</h2><p class="description">Выбирай цель и направления проекта. Изображения иллюстративные; конкретную совместимость деталей необходимо проверять.</p></div><span class="tuneChip" id="tuneTier">STREET</span></div>
+ <div class="tunePreset" id="tunePreset"><button data-hp="400">400 <small>Сток</small></button><button data-hp="450">450 <small>Лёгкий</small></button><button data-hp="500">500 <small>Умеренный</small></button><button data-hp="600">600 <small>Сложный</small></button><button data-hp="750">750 <small>Экстрим</small></button><button data-hp="1000">1000 <small>Концепт</small></button></div>
+ <div class="tuneMeter"><span>400 л.с.</span><strong id="tunePowerReadout">500 л.с.</strong><span>1000 л.с.</span></div>
+ <input aria-label="Целевая мощность" id="tuneRange" type="range" min="400" max="1000" step="10" value="500" />
+ <div class="tuneWarning" id="tuneWarning"></div>
+ <div class="tuneCategoryHead"><h3>Каталог компонентов и направлений</h3><p>Отмечай интересующие категории. Бюджеты условные, не являются коммерческими предложениями.</p></div>
+ <div class="tuneFilters" id="tuneFilters"><button class="active" data-filter="all">Все</button><button data-filter="power">Мощность</button><button data-filter="drive">Ходовая</button><button data-filter="style">Внешность и салон</button></div>
+ <div class="tuneParts" id="tuneParts"></div><div class="tuneSummary"><div><span>Выбрано категорий</span><strong id="tuneCount">0</strong></div><div><span>Ориентир на выбранные категории</span><strong id="tunePartsTotal">$0</strong></div></div>`;
+ tuning.insertBefore(configurator,tuningCard);
+ const partCatalog=[
+ ['intercooler','Интеркулер','power',650,'Охлаждение воздуха наддува','https://commons.wikimedia.org/wiki/Special:FilePath/Intercooler.jpg'],
+ ['intake','Впуск','power',450,'Воздушный тракт','https://commons.wikimedia.org/wiki/Special:FilePath/Cold_air_intake.jpg'],
+ ['turbo','Турбокомпрессоры','power',2200,'Компоненты наддува; подбор только со специалистом','https://commons.wikimedia.org/wiki/Special:FilePath/Turbocharger.jpg'],
+ ['ecu','Калибровка ECU','power',700,'Профессиональная диагностика и настройка','https://commons.wikimedia.org/wiki/Special:FilePath/Engine_control_unit.jpg'],
+ ['cooling','Охлаждение','power',900,'Контроль тепловой нагрузки','https://commons.wikimedia.org/wiki/Special:FilePath/Car_radiator.jpg'],
+ ['exhaust','Выхлоп','style',1100,'Звук и внешний вид с учётом местных норм','https://commons.wikimedia.org/wiki/Special:FilePath/Exhaust_system.jpg'],
+ ['brakes','Тормоза','drive',1600,'Тормозные компоненты и обслуживание','https://commons.wikimedia.org/wiki/Special:FilePath/Disc_brake.jpg'],
+ ['suspension','Подвеска','drive',1400,'Управляемость и комфорт','https://commons.wikimedia.org/wiki/Special:FilePath/Coilover.jpg'],
+ ['wheels','Диски и шины','drive',2200,'Колёсный комплект подходящих размеров','https://commons.wikimedia.org/wiki/Special:FilePath/Alloy_wheel.jpg'],
+ ['body','Обвес и детали кузова','style',1800,'Декоративные элементы и защита','https://commons.wikimedia.org/wiki/Special:FilePath/2020_Ford_Explorer_ST,_front_8.24.19.jpg'],
+ ['interior','Салон','style',1200,'Отделка, комфорт и мультимедиа','https://commons.wikimedia.org/wiki/Special:FilePath/Car_interior.jpg'],
+ ['diagnostics','Диагностика','drive',300,'Осмотр состояния перед проектом','https://commons.wikimedia.org/wiki/Special:FilePath/OBD2_connector.jpg']
+ ];
+ const icons={intercooler:'❄',intake:'◉',turbo:'◎',ecu:'▣',cooling:'❄',exhaust:'≋',brakes:'◉',suspension:'↕',wheels:'◉',body:'◆',interior:'▤',diagnostics:'⌁'};
+ let chosenParts=[];try{chosenParts=JSON.parse(localStorage.getItem('redlinePartChoices')||'[]')}catch(e){};
+ let partFilter='all';
+ function updatePartSummary(){const picked=partCatalog.filter(p=>chosenParts.includes(p[0]));document.getElementById('tuneCount').textContent=picked.length;document.getElementById('tunePartsTotal').textContent='$'+picked.reduce((a,p)=>a+p[3],0).toLocaleString('en-US');}
+ function renderParts(){document.getElementById('tuneParts').innerHTML=partCatalog.filter(p=>partFilter==='all'||p[2]===partFilter).map(p=>`<label class="tunePart ${chosenParts.includes(p[0])?'picked':''}"><div class="tunePartImage"><img loading="lazy" src="${p[5]}" alt="Иллюстрация: ${p[1]}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="tuneFallback" style="display:none">${icons[p[0]]}</span></div><div class="tunePartBody"><span class="tunePartCategory">${p[2]==='power'?'МОЩНОСТЬ':p[2]==='drive'?'ХОДОВАЯ':'СТИЛЬ'}</span><h4>${p[1]}</h4><p>${p[4]}</p><div class="tunePartBottom"><strong>≈ $${p[3].toLocaleString('en-US')}</strong><span class="tuneSelect">${chosenParts.includes(p[0])?'✓ Выбрано':'+ Выбрать'}</span></div></div><input type="checkbox" data-part="${p[0]}" ${chosenParts.includes(p[0])?'checked':''} aria-label="Выбрать ${p[1]}"></label>`).join('');updatePartSummary();}
+ configurator.addEventListener('change',e=>{if(e.target.matches('[data-part]')){const id=e.target.dataset.part;chosenParts=e.target.checked?[...new Set([...chosenParts,id])]:chosenParts.filter(x=>x!==id);localStorage.setItem('redlinePartChoices',JSON.stringify(chosenParts));renderParts();}});
+ configurator.addEventListener('click',e=>{const filter=e.target.closest('[data-filter]');if(filter){partFilter=filter.dataset.filter;configurator.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===filter));renderParts();}const preset=e.target.closest('[data-hp]');if(preset){hpTarget.value=preset.dataset.hp;hpTarget.dispatchEvent(new Event('input',{bubbles:true}));}});
+ const tuneRange=document.getElementById('tuneRange');tuneRange.addEventListener('input',()=>{hpTarget.value=tuneRange.value;hpTarget.dispatchEvent(new Event('input',{bubbles:true}));});
+ function refreshPowerStudio(){const hp=Math.max(400,Math.min(1000,+hpTarget.value||400));tuneRange.value=hp;document.getElementById('tunePowerReadout').textContent=hp+' л.с.';const tier=hp<=500?'STREET':hp<=650?'ADVANCED':hp<=800?'EXTREME':'CONCEPT';document.getElementById('tuneTier').textContent=tier;document.getElementById('tuneWarning').textContent=hp>800?'Концептуальная цель. 800–1000 л.с. не подтверждены для штатной силовой установки. Нужны индивидуальный инженерный проект и оценка безопасности.':hp>600?'Высокая нагрузка на силовую установку и трансмиссию. Нельзя считать этот список гарантированно достаточным.':hp>500?'Для такой цели необходимы оценка состояния машины и профессиональная настройка.':'Выбор мощности — ориентир для планирования, не гарантия результата.';configurator.querySelectorAll('[data-hp]').forEach(b=>b.classList.toggle('active',+b.dataset.hp===hp));}
+ hpTarget.addEventListener('input',refreshPowerStudio);refreshPowerStudio();renderParts();
+
+ move(tools,document.getElementById('calcCar')?.closest('.grid2'));move(tools,document.getElementById('watchList')?.closest('.grid2'));
+ // Hide old goal box, but preserve its DOM nodes for existing event handlers.
+ document.querySelectorAll('#view-tools .grid2').forEach(g=>{g.classList.add('view-pane','active');if(g.querySelector('#goalPrice'))g.querySelector('.card:first-child').style.display='none'});
+ gallery.innerHTML='<h2 class="redlineSectionTitle">Галерея Explorer ST</h2><p class="navNote">Фотографии по поколениям. Изображения загружаются из внешних источников и могут быть недоступны.</p><div class="galleryGrid" id="redlineGalleryGrid"></div>';
+ function refreshGallery(){const arr=[...galleryForYear(),...Object.entries(carPhotos).filter(([y])=>Number(y)>=2025===(Number(selected)>=2025)).map(([y,src])=>({src,label:`Explorer ST ${y} • фото модели`}))];document.getElementById('redlineGalleryGrid').innerHTML=arr.map((item,i)=>`<button type="button" class="galleryTile" data-gallery-index="${i}"><img loading="lazy" src="${item.src}" alt="${item.label.replace(/"/g,'&quot;')}"><span>${item.label}</span></button>`).join('');}
+ gallery.addEventListener('click',e=>{const b=e.target.closest('[data-gallery-index]');if(b){const i=+b.dataset.galleryIndex;if(i<galleryForYear().length)openGallery(i);else{const arr=[...galleryForYear(),...Object.entries(carPhotos).filter(([y])=>(Number(y)>=2025)===(Number(selected)>=2025)).map(([y,src])=>({src,label:`Explorer ST ${y} • фото модели`}))];document.getElementById("galleryImage").src=arr[i].src;document.getElementById("galleryCaption").textContent=arr[i].label;document.getElementById("galleryModal").classList.add("open");document.body.classList.add("modalOpen")}}});
+ const originalSelect=selectCar;selectCar=function(year){originalSelect(year);refreshGallery();refreshPowerStudio()};
+ function switchView(name){for(const el of [graph,marketView,tuning,gallery,tools])el.classList.toggle('active',el.id==='view-'+name);nav.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));localStorage.setItem('redlineActiveView',name);if(name==='graph'){setTimeout(()=>{if(typeof chart!=='undefined'&&chart?.resize)chart.resize();if(typeof priceChart!=='undefined'&&priceChart?.resize)priceChart.resize()},60)}}
+ nav.addEventListener('click',e=>{const btn=e.target.closest('[data-view]');if(btn)switchView(btn.dataset.view)});
+ refreshGallery();switchView(localStorage.getItem('redlineActiveView')||'graph');
+})();
 
 </script>
 
