@@ -543,6 +543,26 @@ body{overflow-x:hidden}.hero{padding-top:25px;padding-bottom:14px}.yearNav{paddi
 .tunePart{cursor:default!important}.tunePartImage{height:175px}.tunePartImage img{object-fit:contain!important;padding:10px;background:#191b21}.tuneParts{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:750px){.tuneParts{grid-template-columns:repeat(2,minmax(0,1fr))}.tunePowerHero{padding:20px}.tunePowerHero .tuneSliderHint{display:none}}
 @media(max-width:470px){.tuneParts{grid-template-columns:1fr}}
+
+/* REDLINE V5 — refined component cards */
+#view-tuning .tuneConfigurator{background:linear-gradient(145deg,#151820 0%,#0c0e14 80%);border:1px solid #34313a;border-radius:24px;box-shadow:0 20px 60px #0005}
+.tuneCategoryHead{margin:36px 0 20px!important;max-width:920px}.tuneCategoryHead h3{font-size:clamp(19px,2vw,27px)!important;letter-spacing:-.5px}.tuneCategoryHead p{line-height:1.65!important;font-size:12px!important}
+.tuneParts{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:20px!important}
+.tunePart{display:flex!important;flex-direction:column;min-width:0;border:1px solid #30343f!important;border-radius:21px!important;background:linear-gradient(160deg,#1a1d27,#111319 65%)!important;box-shadow:0 10px 35px #0003;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.tunePart:hover{transform:translateY(-5px);border-color:#a52b45!important;box-shadow:0 17px 42px #0008,0 0 0 1px #d5233a25}
+.tunePartImage{height:205px!important;background:radial-gradient(ellipse at 50% 40%,#30323c,#12141b 75%)!important;border-bottom:1px solid #30343f;display:flex;align-items:center;justify-content:center}
+.tunePartImage img{width:100%;height:100%;object-fit:contain!important;padding:23px!important;background:transparent!important;filter:drop-shadow(0 12px 18px #0007);transition:transform .25s ease}
+.tunePart:hover .tunePartImage img{transform:scale(1.045)}
+.tunePartBody{padding:20px!important;display:flex;flex-direction:column;flex:1;gap:9px}
+.tunePartCategory{font-size:9px!important;letter-spacing:1.6px!important;color:#ff6b81!important;display:inline-flex;align-self:flex-start;padding:6px 9px;border-radius:7px;background:#e41e4020;border:1px solid #ec31513d}
+.tunePartBody h4{font-size:17px!important;line-height:1.3!important;letter-spacing:-.3px;margin:4px 0 0!important}
+.tunePartBody p{font-size:12px!important;line-height:1.65!important;color:#adb1bd!important;min-height:0!important;margin:0;flex:1}
+.tunePartBottom{margin-top:15px!important;padding-top:15px;border-top:1px solid #34343c;align-items:flex-end!important}
+.tunePartBottom strong{font-size:17px!important;color:#fff;letter-spacing:-.5px}.tuneSelect{font-size:10px!important;color:#aeb1bb!important;border-radius:6px;padding:6px 8px;background:#292b33}
+.tuneSummary{border:1px solid #64303d!important;background:linear-gradient(110deg,#21141b,#17171d);padding:22px!important;border-radius:16px;justify-content:space-between}
+@media(max-width:1050px){.tuneParts{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:600px){.tuneParts{grid-template-columns:1fr!important;gap:14px!important}.tunePartImage{height:185px!important}.tunePartBody{padding:16px!important}.tuneSummary{gap:18px!important}}
+@media(prefers-reduced-motion:reduce){.tunePart,.tunePartImage img{transition:none!important}}
 </style>
 </head>
 
@@ -1986,7 +2006,7 @@ loadCurrency();
    const totalMin=entries.reduce((n,c)=>n+c.min,0),totalMax=entries.reduce((n,c)=>n+c.max,0);
    document.getElementById('tuneCount').textContent=entries.length;
    document.getElementById('tunePartsTotal').textContent='$'+totalMin.toLocaleString('en-US')+'–$'+totalMax.toLocaleString('en-US');
-   document.getElementById('tuneParts').innerHTML=entries.map(c=>`<article class="tunePart"><div class="tunePartImage"><img loading="lazy" src="${c.img}" alt="Пример: ${c.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="tuneFallback" style="display:none">⚙</span></div><div class="tunePartBody"><span class="tunePartCategory">АВТОМАТИЧЕСКИ</span><h4>${c.name}</h4><p>${c.desc}</p><div class="tunePartBottom"><strong>$${c.min.toLocaleString('en-US')}–$${c.max.toLocaleString('en-US')}</strong><span class="tuneSelect">Оценка</span></div></div></article>`).join('');
+   document.getElementById('tuneParts').innerHTML=entries.map(c=>`<article class="tunePart"><div class="tunePartImage"><img loading="lazy" src="${c.img}" alt="Пример: ${c.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><span class="tuneFallback" style="display:none">⚙</span></div><div class="tunePartBody"><span class="tunePartCategory">ПЛАН ПРОЕКТА</span><h4>${c.name}</h4><p>${c.desc}</p><div class="tunePartBottom"><strong>$${c.min.toLocaleString('en-US')}–$${c.max.toLocaleString('en-US')}</strong><span class="tuneSelect">Бюджет</span></div></div></article>`).join('');
  }
  configurator.addEventListener('click',e=>{const preset=e.target.closest('[data-hp]');if(preset){hpTarget.value=preset.dataset.hp;hpTarget.dispatchEvent(new Event('input',{bubbles:true}));}});
  tuneRange.addEventListener('input',()=>{hpTarget.value=tuneRange.value;hpTarget.dispatchEvent(new Event('input',{bubbles:true}));});
